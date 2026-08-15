@@ -718,7 +718,8 @@ a {
   }
 
   .timeline {
-    display: block;
+    display: flex;
+    flex-direction: column-reverse;
     width: auto;
     min-width: 0;
     padding: 0;
@@ -741,7 +742,7 @@ a {
     padding: 0 0 1.75rem 1.75rem;
   }
 
-  .timeline-col:last-child {
+  .timeline-col:first-child {
     padding-bottom: 0;
   }
 
