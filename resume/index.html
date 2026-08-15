@@ -9,11 +9,12 @@
 <body>
 
   <nav class="navbar" id="navbar">
-    <a href="#hero" class="nav-brand">YM</a>
+    <a href="#about" class="nav-brand">YM</a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
+      <li><a href="#about" class="nav-link">About</a></li>
       <li><a href="#now" class="nav-link">Now</a></li>
       <li><a href="#expertise" class="nav-link">Expertise</a></li>
       <li><a href="#experience" class="nav-link">Experience</a></li>
@@ -28,62 +29,56 @@
     </button>
   </nav>
 
-  <header class="hero" id="hero">
-    <div class="hero-inner">
-      <div class="hero-photo">
+  <main>
+    <section id="about" class="section active-panel">
+      <div class="profile-intro">
         <div class="avatar" aria-hidden="true">
           <span class="initials">YM</span>
           <img src="headshot.jpg" alt="" onerror="this.style.display='none'">
         </div>
+        <div class="profile-copy">
+          <p class="eyebrow">Director of Data Engineering &amp; Analytics</p>
+          <h1>Yashasvi Maheswarapu</h1>
+          <p class="profile-bio">I'm Yash, a Data and Analytics Director with 17+ years of experience architecting and leading enterprise data strategy across cloud and on-premises platforms. I've directed cross-functional teams of 15-30 professionals and owned multi-million-dollar budgets, delivering scalable, secure data architectures for organizations across financial services, healthcare, retail, and beyond.</p>
+          <p class="profile-bio">My focus is architecture that scales: designing enterprise-grade data platforms, building the governance and security frameworks that keep data trustworthy, and laying the foundations that make AI and ML initiatives possible in production &mdash; not just in pilot. Along the way, I've driven measurable efficiency and cost gains by rearchitecting legacy systems into modern, cloud-native ecosystems on Azure, Databricks, Snowflake, and Microsoft Fabric.</p>
+          <p class="profile-bio">Beyond the technology, I lead people &mdash; managing platform, software, and staff-augmentation vendor relationships, and partnering with stakeholders from individual contributors to the executive suite to turn data strategy into delivered outcomes.</p>
+        </div>
       </div>
-      <div class="hero-copy">
-        <p class="eyebrow">Director of Data Engineering &amp; Analytics</p>
-        <h1>Yashasvi Maheswarapu</h1>
-        <p class="hero-tagline">I'm Yash, a Data and Analytics Director with 17+ years of experience architecting and leading enterprise data strategy across cloud and on-premises platforms. I've directed cross-functional teams of 15-30 professionals and owned multi-million-dollar budgets, delivering scalable, secure data architectures for organizations across financial services, healthcare, retail, and beyond.</p>
-        <p class="hero-tagline">My focus is architecture that scales: designing enterprise-grade data platforms, building the governance and security frameworks that keep data trustworthy, and laying the foundations that make AI and ML initiatives possible in production &mdash; not just in pilot. Along the way, I've driven measurable efficiency and cost gains by rearchitecting legacy systems into modern, cloud-native ecosystems on Azure, Databricks, Snowflake, and Microsoft Fabric.</p>
-        <p class="hero-tagline">Beyond the technology, I lead people &mdash; managing platform, software, and staff-augmentation vendor relationships, and partnering with stakeholders from individual contributors to the executive suite to turn data strategy into delivered outcomes.</p>
-      </div>
-    </div>
 
-    <div class="stats" id="stats">
-      <div class="stat">
-        <span class="stat-number" data-target="17" data-suffix="+">0</span>
-        <span class="stat-label">Years of Experience</span>
+      <div class="stats" id="stats">
+        <div class="stat">
+          <span class="stat-number" data-target="17" data-suffix="+">0</span>
+          <span class="stat-label">Years of Experience</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="6" data-suffix="">0</span>
+          <span class="stat-label">End-to-End Projects Directed</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="75" data-suffix="%">0</span>
+          <span class="stat-label">Max Pipeline Latency Reduction</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="75" data-suffix="%">0</span>
+          <span class="stat-label">Increase in Data Efficiency</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="20" data-suffix="%">0</span>
+          <span class="stat-label">Platform Cost Reduction</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="80" data-suffix="%+">0</span>
+          <span class="stat-label">Critical Data Assets Under Governance</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="30" data-suffix="%">0</span>
+          <span class="stat-label">Faster AI Time-to-Production</span>
+        </div>
       </div>
-      <div class="stat">
-        <span class="stat-number" data-target="6" data-suffix="">0</span>
-        <span class="stat-label">End-to-End Projects Directed</span>
-      </div>
-      <div class="stat">
-        <span class="stat-number" data-target="75" data-suffix="%">0</span>
-        <span class="stat-label">Max Pipeline Latency Reduction</span>
-      </div>
-      <div class="stat">
-        <span class="stat-number" data-target="75" data-suffix="%">0</span>
-        <span class="stat-label">Increase in Data Efficiency</span>
-      </div>
-      <div class="stat">
-        <span class="stat-number" data-target="20" data-suffix="%">0</span>
-        <span class="stat-label">Platform Cost Reduction</span>
-      </div>
-      <div class="stat">
-        <span class="stat-number" data-target="80" data-suffix="%+">0</span>
-        <span class="stat-label">Critical Data Assets Under Governance</span>
-      </div>
-      <div class="stat">
-        <span class="stat-number" data-target="30" data-suffix="%">0</span>
-        <span class="stat-label">Faster AI Time-to-Production</span>
-      </div>
-    </div>
+    </section>
 
-    <a href="#now" class="scroll-cue" aria-label="Scroll to Now">
-      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
-  </header>
-
-  <main>
-    <section id="now" class="section reveal">
-      <h2><span class="section-index">01</span>What I'm Doing Now</h2>
+    <section id="now" class="section">
+      <h2><span class="section-index">02</span>What I'm Doing Now</h2>
       <div class="now-card">
         <div class="now-header">
           <div>
@@ -106,107 +101,110 @@
       </div>
     </section>
 
-    <section id="expertise" class="section reveal">
-      <h2><span class="section-index">02</span>Expertise &amp; Impact</h2>
-      <div class="project-list">
+    <section id="expertise" class="section">
+      <h2><span class="section-index">03</span>Expertise &amp; Impact</h2>
+
+      <div class="expertise-detail" id="expertiseDetail" hidden>
+        <button class="expertise-detail-close" id="expertiseDetailClose" aria-label="Close">&times;</button>
+        <h3 id="expertiseDetailTitle"></h3>
+        <p class="project-tags" id="expertiseDetailTags"></p>
+        <ul id="expertiseDetailList"></ul>
+      </div>
+
+      <div class="project-list" id="expertiseList">
 
         <article class="project-card">
-          <button class="project-header" aria-expanded="false">
+          <button class="expertise-trigger" data-target="expertise-leadership" aria-expanded="false">
             <div>
               <h3>Leadership &amp; Data Strategy</h3>
               <p class="project-tags">Team Leadership &middot; Vendor Management &middot; Executive Stakeholders</p>
             </div>
-            <span class="chevron" aria-hidden="true"></span>
+            <span class="expand-icon" aria-hidden="true">+</span>
           </button>
-          <div class="project-body">
-            <ul>
-              <li>Successfully directed cross-functional teams of data professionals to deliver high-impact solutions, achieving a 20% improvement in project delivery timelines while fostering a culture of innovation.</li>
-              <li>Directed enterprise-scale data portfolios end-to-end, successfully managing comprehensive operational and capital budgets to guarantee on-time delivery, exceed stakeholder expectations, and drive measurable outcomes.</li>
-              <li>Led strategic vendor management initiatives, evaluating third-party solutions and negotiating enterprise agreements for cloud platforms and external services to ensure maximum ROI and cost-efficiency.</li>
-              <li>Spearheaded the migration to modern cloud platforms (Databricks, Snowflake, Microsoft Fabric), effectively managing platform vendor relationships and reducing overall infrastructure costs by 15%.</li>
-              <li>Enabled business transformation by guiding teams to design scalable analytics strategies, resulting in a 30% increase in data-driven decision-making enterprise-wide.</li>
-              <li>Collaborated with senior stakeholders to deliver tailored interactive dashboards, improving strategic decision-making and directly contributing to a 15% boost in revenue growth.</li>
-            </ul>
-          </div>
         </article>
 
         <article class="project-card">
-          <button class="project-header" aria-expanded="false">
+          <button class="expertise-trigger" data-target="expertise-ai" aria-expanded="false">
             <div>
               <h3>AI Initiatives &amp; Advanced Analytics</h3>
               <p class="project-tags">Databricks &middot; Vector Search &middot; Predictive Modeling</p>
             </div>
-            <span class="chevron" aria-hidden="true"></span>
+            <span class="expand-icon" aria-hidden="true">+</span>
           </button>
-          <div class="project-body">
-            <ul>
-              <li>Engineered Databricks-native document extraction pipelines utilizing text extractors to parse and load unstructured documents into a vector database, enabling semantic search and enterprise content retrieval.</li>
-              <li>Deployed Databricks chatbot agents integrated with vector databases to surface critical document data to customer service teams in real time, driving a 30% to 50% improvement in service success rates.</li>
-              <li>Partnered with business stakeholders to identify high-value AI use cases, define data ingestion requirements, and validate agent response quality against operational benchmarks.</li>
-              <li>Leveraged predictive and prescriptive modeling to deliver actionable insights, producing a 20% improvement in business outcomes and operational efficiency.</li>
-              <li>Refined enterprise KPIs and reporting requirements, achieving a 25% increase in the accuracy and relevance of business performance metrics.</li>
-            </ul>
-          </div>
         </article>
 
         <article class="project-card">
-          <button class="project-header" aria-expanded="false">
+          <button class="expertise-trigger" data-target="expertise-architecture" aria-expanded="false">
             <div>
               <h3>Data Architecture, Engineering &amp; Integration</h3>
               <p class="project-tags">Medallion Architecture &middot; ETL/ELT &middot; Cloud Migration</p>
             </div>
-            <span class="chevron" aria-hidden="true"></span>
+            <span class="expand-icon" aria-hidden="true">+</span>
           </button>
-          <div class="project-body">
-            <ul>
-              <li>Designed and deployed secure, scalable architectures (Medallion Architecture, ADLS, AWS S3, Synapse, Snowflake, Fabric), successfully reducing data processing times by 35%.</li>
-              <li>Optimized ETL/ELT pipelines utilizing Azure Data Factory, Databricks, AWS Glue, Apache Airflow, and Microsoft Fabric, slashing data processing latency by 50% and enabling real-time analytics.</li>
-              <li>Architected enterprise data warehouses and data marts, scaling performance to effortlessly handle a 40% increase in data volume without compromising speed.</li>
-              <li>Enhanced forecasting accuracy by 20% and improved historical reconciliation processes by deploying Kimball methodologies, optimizing business planning and resource allocation.</li>
-              <li>Streamlined data integration across diverse source systems, ensuring zero downtime and pristine data accuracy for mission-critical workflows.</li>
-            </ul>
-          </div>
         </article>
 
         <article class="project-card">
-          <button class="project-header" aria-expanded="false">
+          <button class="expertise-trigger" data-target="expertise-governance" aria-expanded="false">
             <div>
               <h3>Data Governance, Quality &amp; Security</h3>
               <p class="project-tags">RBAC &middot; Metadata Tooling &middot; Compliance</p>
             </div>
-            <span class="chevron" aria-hidden="true"></span>
+            <span class="expand-icon" aria-hidden="true">+</span>
           </button>
-          <div class="project-body">
-            <ul>
-              <li>Implemented sustainable data models, quality standards, and governance protocols, improving data accessibility and accuracy by 25%, while increasing overall data efficiency by 75% and reducing errors by 40%.</li>
-              <li>Developed proprietary, in-house metadata and governance tools to strengthen regulatory compliance and data integrity.</li>
-              <li>Instituted robust data security measures, including role-based access controls (RBAC) and encryption, protecting the confidentiality and integrity of sensitive corporate data.</li>
-              <li>Directed regular audits and vulnerability assessments to proactively identify risks and maintain highly secure data environments.</li>
-            </ul>
-          </div>
         </article>
 
         <article class="project-card">
-          <button class="project-header" aria-expanded="false">
+          <button class="expertise-trigger" data-target="expertise-visualization" aria-expanded="false">
             <div>
               <h3>Data Visualization</h3>
               <p class="project-tags">Power BI &middot; Tableau &middot; Qlik Sense</p>
             </div>
-            <span class="chevron" aria-hidden="true"></span>
+            <span class="expand-icon" aria-hidden="true">+</span>
           </button>
-          <div class="project-body">
-            <ul>
-              <li>Delivered dynamic, interactive dashboards leveraging Power BI, Tableau, and Qlik Sense, empowering stakeholders to achieve a 30% faster turnaround in critical decision-making.</li>
-              <li>Managed analytics platform architecture to ensure robust, scalable, and customized visualization solutions that met diverse, cross-departmental business needs.</li>
-            </ul>
-          </div>
         </article>
 
       </div>
+
+      <template id="expertise-leadership">
+        <li>Successfully directed cross-functional teams of data professionals to deliver high-impact solutions, achieving a 20% improvement in project delivery timelines while fostering a culture of innovation.</li>
+        <li>Directed enterprise-scale data portfolios end-to-end, successfully managing comprehensive operational and capital budgets to guarantee on-time delivery, exceed stakeholder expectations, and drive measurable outcomes.</li>
+        <li>Led strategic vendor management initiatives, evaluating third-party solutions and negotiating enterprise agreements for cloud platforms and external services to ensure maximum ROI and cost-efficiency.</li>
+        <li>Spearheaded the migration to modern cloud platforms (Databricks, Snowflake, Microsoft Fabric), effectively managing platform vendor relationships and reducing overall infrastructure costs by 15%.</li>
+        <li>Enabled business transformation by guiding teams to design scalable analytics strategies, resulting in a 30% increase in data-driven decision-making enterprise-wide.</li>
+        <li>Collaborated with senior stakeholders to deliver tailored interactive dashboards, improving strategic decision-making and directly contributing to a 15% boost in revenue growth.</li>
+      </template>
+
+      <template id="expertise-ai">
+        <li>Engineered Databricks-native document extraction pipelines utilizing text extractors to parse and load unstructured documents into a vector database, enabling semantic search and enterprise content retrieval.</li>
+        <li>Deployed Databricks chatbot agents integrated with vector databases to surface critical document data to customer service teams in real time, driving a 30% to 50% improvement in service success rates.</li>
+        <li>Partnered with business stakeholders to identify high-value AI use cases, define data ingestion requirements, and validate agent response quality against operational benchmarks.</li>
+        <li>Leveraged predictive and prescriptive modeling to deliver actionable insights, producing a 20% improvement in business outcomes and operational efficiency.</li>
+        <li>Refined enterprise KPIs and reporting requirements, achieving a 25% increase in the accuracy and relevance of business performance metrics.</li>
+      </template>
+
+      <template id="expertise-architecture">
+        <li>Designed and deployed secure, scalable architectures (Medallion Architecture, ADLS, AWS S3, Synapse, Snowflake, Fabric), successfully reducing data processing times by 35%.</li>
+        <li>Optimized ETL/ELT pipelines utilizing Azure Data Factory, Databricks, AWS Glue, Apache Airflow, and Microsoft Fabric, slashing data processing latency by 50% and enabling real-time analytics.</li>
+        <li>Architected enterprise data warehouses and data marts, scaling performance to effortlessly handle a 40% increase in data volume without compromising speed.</li>
+        <li>Enhanced forecasting accuracy by 20% and improved historical reconciliation processes by deploying Kimball methodologies, optimizing business planning and resource allocation.</li>
+        <li>Streamlined data integration across diverse source systems, ensuring zero downtime and pristine data accuracy for mission-critical workflows.</li>
+      </template>
+
+      <template id="expertise-governance">
+        <li>Implemented sustainable data models, quality standards, and governance protocols, improving data accessibility and accuracy by 25%, while increasing overall data efficiency by 75% and reducing errors by 40%.</li>
+        <li>Developed proprietary, in-house metadata and governance tools to strengthen regulatory compliance and data integrity.</li>
+        <li>Instituted robust data security measures, including role-based access controls (RBAC) and encryption, protecting the confidentiality and integrity of sensitive corporate data.</li>
+        <li>Directed regular audits and vulnerability assessments to proactively identify risks and maintain highly secure data environments.</li>
+      </template>
+
+      <template id="expertise-visualization">
+        <li>Delivered dynamic, interactive dashboards leveraging Power BI, Tableau, and Qlik Sense, empowering stakeholders to achieve a 30% faster turnaround in critical decision-making.</li>
+        <li>Managed analytics platform architecture to ensure robust, scalable, and customized visualization solutions that met diverse, cross-departmental business needs.</li>
+      </template>
     </section>
 
-    <section id="experience" class="section reveal">
-      <h2><span class="section-index">03</span>Experience</h2>
+    <section id="experience" class="section">
+      <h2><span class="section-index">04</span>Experience</h2>
       <div class="timeline-scroll">
         <ol class="timeline">
           <li class="timeline-col above">
@@ -313,8 +311,8 @@
       </div>
     </section>
 
-    <section id="skills" class="section reveal">
-      <h2><span class="section-index">04</span>Skills &amp; Competencies</h2>
+    <section id="skills" class="section">
+      <h2><span class="section-index">05</span>Skills &amp; Competencies</h2>
       <div class="skill-grid">
         <div class="skill-card">
           <h3>Leadership &amp; Strategy</h3>
@@ -373,75 +371,87 @@
       </div>
     </section>
 
-    <section id="projects" class="section reveal">
-      <h2><span class="section-index">05</span>Featured Projects</h2>
-      <div class="project-list">
+    <section id="projects" class="section">
+      <h2><span class="section-index">06</span>Featured Projects</h2>
+
+      <div class="expertise-detail" id="projectDetail" hidden>
+        <button class="expertise-detail-close" id="projectDetailClose" aria-label="Close">&times;</button>
+        <h3 id="projectDetailTitle"></h3>
+        <p class="project-tags" id="projectDetailTags"></p>
+        <div id="projectDetailBody"></div>
+      </div>
+
+      <div class="project-list" id="projectsList">
 
         <article class="project-card">
-          <button class="project-header" aria-expanded="false">
+          <button class="expertise-trigger" data-target="project-ai" aria-expanded="false">
             <div>
               <h3>AI Document Intelligence &amp; Chatbot Agents</h3>
               <p class="project-tags">Databricks &middot; Vector Database &middot; Semantic Search</p>
             </div>
-            <span class="chevron" aria-hidden="true"></span>
+            <span class="expand-icon" aria-hidden="true">+</span>
           </button>
-          <div class="project-body">
-            <p><strong>Problem:</strong> Customer service teams needed real-time access to critical information buried in large volumes of unstructured documents.</p>
-            <p><strong>Approach:</strong> Engineered Databricks-native document extraction pipelines using text extractors to parse and load unstructured documents into a vector database, then deployed chatbot agents integrated with that vector store to surface answers on demand. Partnered with business stakeholders to define ingestion requirements and validate response quality against operational benchmarks.</p>
-            <p><strong>Impact:</strong> Drove a 30&ndash;50% improvement in service success rates and enabled enterprise-wide semantic search and content retrieval.</p>
-          </div>
         </article>
 
         <article class="project-card">
-          <button class="project-header" aria-expanded="false">
+          <button class="expertise-trigger" data-target="project-migration" aria-expanded="false">
             <div>
               <h3>Enterprise Cloud Platform Migration</h3>
               <p class="project-tags">Databricks &middot; Snowflake &middot; Microsoft Fabric &middot; Medallion Architecture</p>
             </div>
-            <span class="chevron" aria-hidden="true"></span>
+            <span class="expand-icon" aria-hidden="true">+</span>
           </button>
-          <div class="project-body">
-            <p><strong>Problem:</strong> Legacy infrastructure and platform sprawl were driving up costs and slowing delivery of new analytics capabilities.</p>
-            <p><strong>Approach:</strong> Spearheaded migration to modern cloud ecosystems, architecting Medallion Architecture across ADLS, AWS S3, Synapse, Snowflake, and Fabric, while managing vendor relationships and negotiating enterprise agreements.</p>
-            <p><strong>Impact:</strong> Reduced infrastructure costs by 15%, cut data processing times by 35%, and slashed ETL/ELT latency by up to 50%, enabling real-time analytics.</p>
-          </div>
         </article>
 
         <article class="project-card">
-          <button class="project-header" aria-expanded="false">
+          <button class="expertise-trigger" data-target="project-governance" aria-expanded="false">
             <div>
               <h3>Enterprise Data Governance &amp; Quality Framework</h3>
               <p class="project-tags">Data Governance &middot; RBAC &middot; Metadata Tooling</p>
             </div>
-            <span class="chevron" aria-hidden="true"></span>
+            <span class="expand-icon" aria-hidden="true">+</span>
           </button>
-          <div class="project-body">
-            <p><strong>Problem:</strong> Inconsistent data models and a lack of standardized governance were eroding trust in enterprise data.</p>
-            <p><strong>Approach:</strong> Implemented sustainable data models, quality standards, and governance protocols; built proprietary in-house metadata and governance tooling; instituted role-based access controls and encryption; directed regular audits and vulnerability assessments.</p>
-            <p><strong>Impact:</strong> Improved data accessibility and accuracy by 25%, increased overall data efficiency by 75%, and cut errors by 40%.</p>
-          </div>
         </article>
 
         <article class="project-card">
-          <button class="project-header" aria-expanded="false">
+          <button class="expertise-trigger" data-target="project-analytics" aria-expanded="false">
             <div>
               <h3>Enterprise Analytics &amp; Decision Intelligence</h3>
               <p class="project-tags">Power BI &middot; Tableau &middot; Qlik Sense &middot; Predictive Modeling</p>
             </div>
-            <span class="chevron" aria-hidden="true"></span>
+            <span class="expand-icon" aria-hidden="true">+</span>
           </button>
-          <div class="project-body">
-            <p><strong>Problem:</strong> Leadership lacked timely, trustworthy insight into business performance across departments.</p>
-            <p><strong>Approach:</strong> Delivered dynamic, interactive dashboards across Power BI, Tableau, and Qlik Sense; refined enterprise KPIs and reporting requirements; applied predictive and prescriptive modeling to surface actionable insights.</p>
-            <p><strong>Impact:</strong> Enabled 30% faster decision turnaround, a 25% increase in KPI accuracy, and contributed to 15% revenue growth.</p>
-          </div>
         </article>
 
       </div>
+
+      <template id="project-ai">
+        <p><strong>Problem:</strong> Customer service teams needed real-time access to critical information buried in large volumes of unstructured documents.</p>
+        <p><strong>Approach:</strong> Engineered Databricks-native document extraction pipelines using text extractors to parse and load unstructured documents into a vector database, then deployed chatbot agents integrated with that vector store to surface answers on demand. Partnered with business stakeholders to define ingestion requirements and validate response quality against operational benchmarks.</p>
+        <p><strong>Impact:</strong> Drove a 30&ndash;50% improvement in service success rates and enabled enterprise-wide semantic search and content retrieval.</p>
+      </template>
+
+      <template id="project-migration">
+        <p><strong>Problem:</strong> Legacy infrastructure and platform sprawl were driving up costs and slowing delivery of new analytics capabilities.</p>
+        <p><strong>Approach:</strong> Spearheaded migration to modern cloud ecosystems, architecting Medallion Architecture across ADLS, AWS S3, Synapse, Snowflake, and Fabric, while managing vendor relationships and negotiating enterprise agreements.</p>
+        <p><strong>Impact:</strong> Reduced infrastructure costs by 15%, cut data processing times by 35%, and slashed ETL/ELT latency by up to 50%, enabling real-time analytics.</p>
+      </template>
+
+      <template id="project-governance">
+        <p><strong>Problem:</strong> Inconsistent data models and a lack of standardized governance were eroding trust in enterprise data.</p>
+        <p><strong>Approach:</strong> Implemented sustainable data models, quality standards, and governance protocols; built proprietary in-house metadata and governance tooling; instituted role-based access controls and encryption; directed regular audits and vulnerability assessments.</p>
+        <p><strong>Impact:</strong> Improved data accessibility and accuracy by 25%, increased overall data efficiency by 75%, and cut errors by 40%.</p>
+      </template>
+
+      <template id="project-analytics">
+        <p><strong>Problem:</strong> Leadership lacked timely, trustworthy insight into business performance across departments.</p>
+        <p><strong>Approach:</strong> Delivered dynamic, interactive dashboards across Power BI, Tableau, and Qlik Sense; refined enterprise KPIs and reporting requirements; applied predictive and prescriptive modeling to surface actionable insights.</p>
+        <p><strong>Impact:</strong> Enabled 30% faster decision turnaround, a 25% increase in KPI accuracy, and contributed to 15% revenue growth.</p>
+      </template>
     </section>
 
-    <section id="education" class="section reveal">
-      <h2><span class="section-index">06</span>Education &amp; Certifications</h2>
+    <section id="education" class="section">
+      <h2><span class="section-index">07</span>Education &amp; Certifications</h2>
       <ul class="cert-list">
         <li><span class="cert-badge">MS</span><span>Master of Science in Computer Engineering &mdash; Dec 2008</span></li>
         <li><span class="cert-badge">MF</span><span>Microsoft Fabric Analytics Engineer Associate &mdash; Credential ID: D73C6061E5D8D83B</span></li>
@@ -453,8 +463,8 @@
       </ul>
     </section>
 
-    <section id="contact" class="section reveal contact-section">
-      <h2><span class="section-index">07</span>Get In Touch</h2>
+    <section id="contact" class="section contact-section">
+      <h2><span class="section-index">08</span>Get In Touch</h2>
       <p class="contact-lede">Open to conversations about data strategy, AI initiatives, and enterprise analytics leadership.</p>
       <div class="contact-actions">
         <a href="mailto:yashmaheswarapu@gmail.com" class="btn btn-primary">yashmaheswarapu@gmail.com</a>
