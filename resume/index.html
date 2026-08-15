@@ -3,78 +3,474 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Name — Resume</title>
+  <title>Yashasvi Maheswarapu — Portfolio</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="resume">
-    <header class="resume-header">
-      <h1>Your Name</h1>
-      <p class="title">Your Title / Role</p>
-      <ul class="contact">
-        <li><a href="mailto:you@example.com">you@example.com</a></li>
-        <li><a href="tel:+10000000000">(000) 000-0000</a></li>
-        <li>City, State</li>
-        <li><a href="https://linkedin.com/in/yourprofile">linkedin.com/in/yourprofile</a></li>
-        <li><a href="https://github.com/yourprofile">github.com/yourprofile</a></li>
-      </ul>
-    </header>
 
-    <section>
-      <h2>Summary</h2>
-      <p>A brief 2-3 sentence summary of your professional background, key strengths, and career focus.</p>
-    </section>
+  <nav class="navbar" id="navbar">
+    <a href="#hero" class="nav-brand">YM</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#now" class="nav-link">Now</a></li>
+      <li><a href="#expertise" class="nav-link">Expertise</a></li>
+      <li><a href="#experience" class="nav-link">Experience</a></li>
+      <li><a href="#skills" class="nav-link">Skills</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#education" class="nav-link">Education</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18"><path d="M12 4V2M12 22v-2M4.93 4.93 3.51 3.51M20.49 20.49l-1.42-1.42M4 12H2M22 12h-2M4.93 19.07l-1.42 1.42M20.49 3.51l-1.42 1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="2"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+    </button>
+  </nav>
 
-    <section>
-      <h2>Experience</h2>
-
-      <div class="entry">
-        <div class="entry-header">
-          <h3>Job Title</h3>
-          <span class="dates">Month Year – Present</span>
+  <header class="hero" id="hero">
+    <div class="hero-inner">
+      <div class="hero-photo">
+        <div class="avatar" aria-hidden="true">
+          <span class="initials">YM</span>
+          <img src="headshot.jpg" alt="" onerror="this.style.display='none'">
         </div>
-        <p class="entry-subtitle">Company Name — City, State</p>
+      </div>
+      <div class="hero-copy">
+        <p class="eyebrow">Director of Data Engineering &amp; Analytics</p>
+        <h1>Yashasvi Maheswarapu</h1>
+        <p class="hero-tagline">I'm Yash, a Data and Analytics Director with 17+ years of experience architecting and leading enterprise data strategy across cloud and on-premises platforms. I've directed cross-functional teams of 15-30 professionals and owned multi-million-dollar budgets, delivering scalable, secure data architectures for organizations across financial services, healthcare, retail, and beyond.</p>
+        <p class="hero-tagline">My focus is architecture that scales: designing enterprise-grade data platforms, building the governance and security frameworks that keep data trustworthy, and laying the foundations that make AI and ML initiatives possible in production &mdash; not just in pilot. Along the way, I've driven measurable efficiency and cost gains by rearchitecting legacy systems into modern, cloud-native ecosystems on Azure, Databricks, Snowflake, and Microsoft Fabric.</p>
+        <p class="hero-tagline">Beyond the technology, I lead people &mdash; managing platform, software, and staff-augmentation vendor relationships, and partnering with stakeholders from individual contributors to the executive suite to turn data strategy into delivered outcomes.</p>
+      </div>
+    </div>
+
+    <div class="stats" id="stats">
+      <div class="stat">
+        <span class="stat-number" data-target="17" data-suffix="+">0</span>
+        <span class="stat-label">Years of Experience</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" data-target="6" data-suffix="">0</span>
+        <span class="stat-label">End-to-End Projects Directed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" data-target="75" data-suffix="%">0</span>
+        <span class="stat-label">Max Pipeline Latency Reduction</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" data-target="75" data-suffix="%">0</span>
+        <span class="stat-label">Increase in Data Efficiency</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" data-target="20" data-suffix="%">0</span>
+        <span class="stat-label">Platform Cost Reduction</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" data-target="80" data-suffix="%+">0</span>
+        <span class="stat-label">Critical Data Assets Under Governance</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" data-target="30" data-suffix="%">0</span>
+        <span class="stat-label">Faster AI Time-to-Production</span>
+      </div>
+    </div>
+
+    <a href="#now" class="scroll-cue" aria-label="Scroll to Now">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </header>
+
+  <main>
+    <section id="now" class="section reveal">
+      <h2><span class="section-index">01</span>What I'm Doing Now</h2>
+      <div class="now-card">
+        <div class="now-header">
+          <div>
+            <h3>Director, Data Engineering and AI</h3>
+            <p class="now-company">Northwest Bank</p>
+          </div>
+          <span class="now-badge">Jun 2025 – Present</span>
+        </div>
+        <p class="now-text">Leading Northwest Bank's data engineering and AI function &mdash; setting the technical direction for a modern lakehouse platform and embedding governance-first practices into how data and AI move into production.</p>
         <ul>
-          <li>Accomplishment or responsibility, quantified where possible.</li>
-          <li>Accomplishment or responsibility, quantified where possible.</li>
-          <li>Accomplishment or responsibility, quantified where possible.</li>
+          <li>Own the enterprise data and AI roadmap end-to-end, from cloud lakehouse architecture through to production-grade AI use cases.</li>
+          <li>Lead the data platform's current-to-future-state rebuild, applying modern lakehouse and governance methodologies to raise the bar on scale and security.</li>
+          <li>Direct vendor selection and strategy across data, AI, and data governance platforms, ensuring every investment aligns with long-term architecture and ROI.</li>
+          <li>Deliver Databricks-native document intelligence and chatbot agents that give teams real-time answers grounded in enterprise data.</li>
+          <li>Establish the governance, quality, and security guardrails that let AI and analytics initiatives scale safely.</li>
+          <li>Build and grow a high-performing team, with direct accountability for their development and career trajectory.</li>
+          <li>Own annual budget planning and proposal development for the data and AI strategy, translating vision into funded, executable priorities.</li>
+          <li>Partner with business stakeholders to prioritize high-value use cases and measure impact against operational benchmarks.</li>
         </ul>
       </div>
+    </section>
 
-      <div class="entry">
-        <div class="entry-header">
-          <h3>Job Title</h3>
-          <span class="dates">Month Year – Month Year</span>
-        </div>
-        <p class="entry-subtitle">Company Name — City, State</p>
-        <ul>
-          <li>Accomplishment or responsibility, quantified where possible.</li>
-          <li>Accomplishment or responsibility, quantified where possible.</li>
-        </ul>
+    <section id="expertise" class="section reveal">
+      <h2><span class="section-index">02</span>Expertise &amp; Impact</h2>
+      <div class="project-list">
+
+        <article class="project-card">
+          <button class="project-header" aria-expanded="false">
+            <div>
+              <h3>Leadership &amp; Data Strategy</h3>
+              <p class="project-tags">Team Leadership &middot; Vendor Management &middot; Executive Stakeholders</p>
+            </div>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="project-body">
+            <ul>
+              <li>Successfully directed cross-functional teams of data professionals to deliver high-impact solutions, achieving a 20% improvement in project delivery timelines while fostering a culture of innovation.</li>
+              <li>Directed enterprise-scale data portfolios end-to-end, successfully managing comprehensive operational and capital budgets to guarantee on-time delivery, exceed stakeholder expectations, and drive measurable outcomes.</li>
+              <li>Led strategic vendor management initiatives, evaluating third-party solutions and negotiating enterprise agreements for cloud platforms and external services to ensure maximum ROI and cost-efficiency.</li>
+              <li>Spearheaded the migration to modern cloud platforms (Databricks, Snowflake, Microsoft Fabric), effectively managing platform vendor relationships and reducing overall infrastructure costs by 15%.</li>
+              <li>Enabled business transformation by guiding teams to design scalable analytics strategies, resulting in a 30% increase in data-driven decision-making enterprise-wide.</li>
+              <li>Collaborated with senior stakeholders to deliver tailored interactive dashboards, improving strategic decision-making and directly contributing to a 15% boost in revenue growth.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <button class="project-header" aria-expanded="false">
+            <div>
+              <h3>AI Initiatives &amp; Advanced Analytics</h3>
+              <p class="project-tags">Databricks &middot; Vector Search &middot; Predictive Modeling</p>
+            </div>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="project-body">
+            <ul>
+              <li>Engineered Databricks-native document extraction pipelines utilizing text extractors to parse and load unstructured documents into a vector database, enabling semantic search and enterprise content retrieval.</li>
+              <li>Deployed Databricks chatbot agents integrated with vector databases to surface critical document data to customer service teams in real time, driving a 30% to 50% improvement in service success rates.</li>
+              <li>Partnered with business stakeholders to identify high-value AI use cases, define data ingestion requirements, and validate agent response quality against operational benchmarks.</li>
+              <li>Leveraged predictive and prescriptive modeling to deliver actionable insights, producing a 20% improvement in business outcomes and operational efficiency.</li>
+              <li>Refined enterprise KPIs and reporting requirements, achieving a 25% increase in the accuracy and relevance of business performance metrics.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <button class="project-header" aria-expanded="false">
+            <div>
+              <h3>Data Architecture, Engineering &amp; Integration</h3>
+              <p class="project-tags">Medallion Architecture &middot; ETL/ELT &middot; Cloud Migration</p>
+            </div>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="project-body">
+            <ul>
+              <li>Designed and deployed secure, scalable architectures (Medallion Architecture, ADLS, AWS S3, Synapse, Snowflake, Fabric), successfully reducing data processing times by 35%.</li>
+              <li>Optimized ETL/ELT pipelines utilizing Azure Data Factory, Databricks, AWS Glue, Apache Airflow, and Microsoft Fabric, slashing data processing latency by 50% and enabling real-time analytics.</li>
+              <li>Architected enterprise data warehouses and data marts, scaling performance to effortlessly handle a 40% increase in data volume without compromising speed.</li>
+              <li>Enhanced forecasting accuracy by 20% and improved historical reconciliation processes by deploying Kimball methodologies, optimizing business planning and resource allocation.</li>
+              <li>Streamlined data integration across diverse source systems, ensuring zero downtime and pristine data accuracy for mission-critical workflows.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <button class="project-header" aria-expanded="false">
+            <div>
+              <h3>Data Governance, Quality &amp; Security</h3>
+              <p class="project-tags">RBAC &middot; Metadata Tooling &middot; Compliance</p>
+            </div>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="project-body">
+            <ul>
+              <li>Implemented sustainable data models, quality standards, and governance protocols, improving data accessibility and accuracy by 25%, while increasing overall data efficiency by 75% and reducing errors by 40%.</li>
+              <li>Developed proprietary, in-house metadata and governance tools to strengthen regulatory compliance and data integrity.</li>
+              <li>Instituted robust data security measures, including role-based access controls (RBAC) and encryption, protecting the confidentiality and integrity of sensitive corporate data.</li>
+              <li>Directed regular audits and vulnerability assessments to proactively identify risks and maintain highly secure data environments.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <button class="project-header" aria-expanded="false">
+            <div>
+              <h3>Data Visualization</h3>
+              <p class="project-tags">Power BI &middot; Tableau &middot; Qlik Sense</p>
+            </div>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="project-body">
+            <ul>
+              <li>Delivered dynamic, interactive dashboards leveraging Power BI, Tableau, and Qlik Sense, empowering stakeholders to achieve a 30% faster turnaround in critical decision-making.</li>
+              <li>Managed analytics platform architecture to ensure robust, scalable, and customized visualization solutions that met diverse, cross-departmental business needs.</li>
+            </ul>
+          </div>
+        </article>
+
       </div>
     </section>
 
-    <section>
-      <h2>Education</h2>
-      <div class="entry">
-        <div class="entry-header">
-          <h3>Degree, Field of Study</h3>
-          <span class="dates">Month Year – Month Year</span>
-        </div>
-        <p class="entry-subtitle">University Name — City, State</p>
+    <section id="experience" class="section reveal">
+      <h2><span class="section-index">03</span>Experience</h2>
+      <div class="timeline-scroll">
+        <ol class="timeline">
+          <li class="timeline-col above">
+            <div class="timeline-card">
+              <div class="timeline-header">
+                <h3>Engineer</h3>
+                <span class="dates">Jan 2009 – Sep 2010</span>
+              </div>
+              <p class="timeline-company">Capital Region Planning Commission</p>
+            </div>
+            <span class="timeline-dot"></span>
+          </li>
+          <li class="timeline-col below">
+            <span class="timeline-dot"></span>
+            <div class="timeline-card">
+              <div class="timeline-header">
+                <h3>Lead Data Engineer</h3>
+                <span class="dates">Oct 2010 – May 2013</span>
+              </div>
+              <p class="timeline-company">Aon Benfield</p>
+            </div>
+          </li>
+          <li class="timeline-col above">
+            <div class="timeline-card">
+              <div class="timeline-header">
+                <h3>Lead Data Engineer</h3>
+                <span class="dates">Jun 2013 – Nov 2013</span>
+              </div>
+              <p class="timeline-company">Bluestem Brands</p>
+            </div>
+            <span class="timeline-dot"></span>
+          </li>
+          <li class="timeline-col below">
+            <span class="timeline-dot"></span>
+            <div class="timeline-card">
+              <div class="timeline-header">
+                <h3>Data Architect</h3>
+                <span class="dates">Dec 2013 – May 2015</span>
+              </div>
+              <p class="timeline-company">Wells Fargo</p>
+            </div>
+          </li>
+          <li class="timeline-col above">
+            <div class="timeline-card">
+              <div class="timeline-header">
+                <h3>Data Architect</h3>
+                <span class="dates">Jun 2015 – Jul 2016</span>
+              </div>
+              <p class="timeline-company">Ditech Financials</p>
+            </div>
+            <span class="timeline-dot"></span>
+          </li>
+          <li class="timeline-col below">
+            <span class="timeline-dot"></span>
+            <div class="timeline-card">
+              <div class="timeline-header">
+                <h3>Sr Data Manager/Architect</h3>
+                <span class="dates">Aug 2016 – Mar 2020</span>
+              </div>
+              <p class="timeline-company">Center for Diagnostic Imaging</p>
+            </div>
+          </li>
+          <li class="timeline-col above">
+            <div class="timeline-card">
+              <div class="timeline-header">
+                <h3>Sr Data Manager</h3>
+                <span class="dates">Apr 2020 – Jan 2021</span>
+              </div>
+              <p class="timeline-company">American Construction Source</p>
+            </div>
+            <span class="timeline-dot"></span>
+          </li>
+          <li class="timeline-col below">
+            <span class="timeline-dot"></span>
+            <div class="timeline-card">
+              <div class="timeline-header">
+                <h3>Sr Data Architect</h3>
+                <span class="dates">Feb 2021 – Jul 2024</span>
+              </div>
+              <p class="timeline-company">Imagine 360</p>
+            </div>
+          </li>
+          <li class="timeline-col above">
+            <div class="timeline-card">
+              <div class="timeline-header">
+                <h3>Senior Manager Data Engineering</h3>
+                <span class="dates">Aug 2024 – May 2025</span>
+              </div>
+              <p class="timeline-company">3 Cloud Solutions LLC</p>
+            </div>
+            <span class="timeline-dot"></span>
+          </li>
+          <li class="timeline-col below">
+            <span class="timeline-dot current"></span>
+            <div class="timeline-card">
+              <div class="timeline-header">
+                <h3>Director Data Engineering and AI</h3>
+                <span class="dates">Jun 2025 – Present</span>
+              </div>
+              <p class="timeline-company">Northwest Bank</p>
+            </div>
+          </li>
+        </ol>
       </div>
     </section>
 
-    <section>
-      <h2>Skills</h2>
-      <ul class="skills">
-        <li>Skill One</li>
-        <li>Skill Two</li>
-        <li>Skill Three</li>
-        <li>Skill Four</li>
-        <li>Skill Five</li>
+    <section id="skills" class="section reveal">
+      <h2><span class="section-index">04</span>Skills &amp; Competencies</h2>
+      <div class="skill-grid">
+        <div class="skill-card">
+          <h3>Leadership &amp; Strategy</h3>
+          <div class="tags">
+            <span>Strategic Leadership</span><span>Stakeholder Management</span><span>Vendor Management</span><span>Contract Negotiation</span><span>Team Development</span><span>Change Management</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>Data Engineering &amp; Analytics</h3>
+          <div class="tags">
+            <span>Data Governance</span><span>Medallion Architecture</span><span>ETL/ELT Best Practices</span><span>Advanced Analytics</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>Cloud Solutions</h3>
+          <div class="tags">
+            <span>Azure</span><span>AWS</span><span>Databricks</span><span>Snowflake</span><span>Microsoft Fabric</span><span>Azure Synapse</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>BI &amp; Visualization</h3>
+          <div class="tags">
+            <span>Power BI</span><span>Tableau</span><span>Qlik Sense</span><span>SSRS</span><span>Business Objects</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>ETL &amp; Orchestration</h3>
+          <div class="tags">
+            <span>SSIS</span><span>Informatica</span><span>Azure Data Factory</span><span>Apache Airflow</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>Programming Languages</h3>
+          <div class="tags">
+            <span>Python</span><span>C#</span><span>C</span><span>SQL</span><span>KQL</span><span>SOQL</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>Databases</h3>
+          <div class="tags">
+            <span>SQL Server</span><span>Oracle</span><span>Db2</span><span>Postgres</span><span>MySQL</span><span>Snowflake</span><span>Cosmos DB</span><span>MongoDB</span><span>AWS Redshift</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>Big Data &amp; Integration</h3>
+          <div class="tags">
+            <span>Apache Spark</span><span>Kafka</span><span>DBT</span><span>Delta Lake</span><span>Azure Data Explorer</span><span>Azure Logic Apps</span><span>Azure Data Lake</span><span>Azure Event Hubs</span><span>Azure Stream Analytics</span><span>Azure Functions</span><span>AWS Glue</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>Compliance &amp; Security</h3>
+          <div class="tags">
+            <span>Data Quality</span><span>Data Security Standards</span><span>Regulatory Compliance</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section reveal">
+      <h2><span class="section-index">05</span>Featured Projects</h2>
+      <div class="project-list">
+
+        <article class="project-card">
+          <button class="project-header" aria-expanded="false">
+            <div>
+              <h3>AI Document Intelligence &amp; Chatbot Agents</h3>
+              <p class="project-tags">Databricks &middot; Vector Database &middot; Semantic Search</p>
+            </div>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="project-body">
+            <p><strong>Problem:</strong> Customer service teams needed real-time access to critical information buried in large volumes of unstructured documents.</p>
+            <p><strong>Approach:</strong> Engineered Databricks-native document extraction pipelines using text extractors to parse and load unstructured documents into a vector database, then deployed chatbot agents integrated with that vector store to surface answers on demand. Partnered with business stakeholders to define ingestion requirements and validate response quality against operational benchmarks.</p>
+            <p><strong>Impact:</strong> Drove a 30&ndash;50% improvement in service success rates and enabled enterprise-wide semantic search and content retrieval.</p>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <button class="project-header" aria-expanded="false">
+            <div>
+              <h3>Enterprise Cloud Platform Migration</h3>
+              <p class="project-tags">Databricks &middot; Snowflake &middot; Microsoft Fabric &middot; Medallion Architecture</p>
+            </div>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="project-body">
+            <p><strong>Problem:</strong> Legacy infrastructure and platform sprawl were driving up costs and slowing delivery of new analytics capabilities.</p>
+            <p><strong>Approach:</strong> Spearheaded migration to modern cloud ecosystems, architecting Medallion Architecture across ADLS, AWS S3, Synapse, Snowflake, and Fabric, while managing vendor relationships and negotiating enterprise agreements.</p>
+            <p><strong>Impact:</strong> Reduced infrastructure costs by 15%, cut data processing times by 35%, and slashed ETL/ELT latency by up to 50%, enabling real-time analytics.</p>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <button class="project-header" aria-expanded="false">
+            <div>
+              <h3>Enterprise Data Governance &amp; Quality Framework</h3>
+              <p class="project-tags">Data Governance &middot; RBAC &middot; Metadata Tooling</p>
+            </div>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="project-body">
+            <p><strong>Problem:</strong> Inconsistent data models and a lack of standardized governance were eroding trust in enterprise data.</p>
+            <p><strong>Approach:</strong> Implemented sustainable data models, quality standards, and governance protocols; built proprietary in-house metadata and governance tooling; instituted role-based access controls and encryption; directed regular audits and vulnerability assessments.</p>
+            <p><strong>Impact:</strong> Improved data accessibility and accuracy by 25%, increased overall data efficiency by 75%, and cut errors by 40%.</p>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <button class="project-header" aria-expanded="false">
+            <div>
+              <h3>Enterprise Analytics &amp; Decision Intelligence</h3>
+              <p class="project-tags">Power BI &middot; Tableau &middot; Qlik Sense &middot; Predictive Modeling</p>
+            </div>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <div class="project-body">
+            <p><strong>Problem:</strong> Leadership lacked timely, trustworthy insight into business performance across departments.</p>
+            <p><strong>Approach:</strong> Delivered dynamic, interactive dashboards across Power BI, Tableau, and Qlik Sense; refined enterprise KPIs and reporting requirements; applied predictive and prescriptive modeling to surface actionable insights.</p>
+            <p><strong>Impact:</strong> Enabled 30% faster decision turnaround, a 25% increase in KPI accuracy, and contributed to 15% revenue growth.</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="education" class="section reveal">
+      <h2><span class="section-index">06</span>Education &amp; Certifications</h2>
+      <ul class="cert-list">
+        <li><span class="cert-badge">MS</span><span>Master of Science in Computer Engineering &mdash; Dec 2008</span></li>
+        <li><span class="cert-badge">MF</span><span>Microsoft Fabric Analytics Engineer Associate &mdash; Credential ID: D73C6061E5D8D83B</span></li>
+        <li><span class="cert-badge">MF</span><span>Microsoft Applied Skills: Implement a data warehouse in Microsoft Fabric &mdash; Credential ID: B6F0237A4DB4529</span></li>
+        <li><span class="cert-badge">MF</span><span>Microsoft Applied Skills: Implement a Lakehouse in Microsoft Fabric &mdash; Credential ID: 2ED19E1CF1AE0A2F</span></li>
+        <li><span class="cert-badge">MF</span><span>Microsoft Applied Skills: Implement a Real-Time Intelligence solution in Microsoft Fabric &mdash; Credential ID: 33FCD9689805D725</span></li>
+        <li><span class="cert-badge">HR</span><span>HackerRank Certification: Python (Basic) &mdash; Credential ID: 000cabbaebd0</span></li>
+        <li><span class="cert-badge">HR</span><span>HackerRank Certification: SQL (Advanced) &mdash; Credential ID: c620dd7d73e3</span></li>
       </ul>
     </section>
-  </div>
+
+    <section id="contact" class="section reveal contact-section">
+      <h2><span class="section-index">07</span>Get In Touch</h2>
+      <p class="contact-lede">Open to conversations about data strategy, AI initiatives, and enterprise analytics leadership.</p>
+      <div class="contact-actions">
+        <a href="mailto:yashmaheswarapu@gmail.com" class="btn btn-primary">yashmaheswarapu@gmail.com</a>
+        <a href="tel:+17325435072" class="btn btn-ghost">732.543.5072</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; <span id="year"></span> Yashasvi Maheswarapu</p>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" width="18" height="18"><path d="M18 15l-6-6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <script src="script.js"></script>
 </body>
 </html>
