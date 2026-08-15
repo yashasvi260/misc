@@ -314,6 +314,24 @@ body.hero-locked .back-to-top {
   display: none;
 }
 
+/* On phones the locked/no-scroll behavior is dropped in favor of letting
+   the page scroll naturally, since there isn't enough height to compress
+   everything into one screen without hurting readability. */
+@media (max-width: 700px) {
+  body.hero-locked {
+    overflow: visible;
+    height: auto;
+  }
+
+  body.hero-locked .footer {
+    display: block;
+  }
+
+  body.hero-locked .back-to-top {
+    display: flex;
+  }
+}
+
 
 .section h2 {
   display: flex;
