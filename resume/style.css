@@ -13,6 +13,7 @@
   --page-bg-2: #eef1f6;
   --card-bg: #ffffff;
   --shadow: rgba(31, 75, 107, 0.08);
+  --nav-height: 60px;
 }
 
 [data-theme="dark"] {
@@ -57,7 +58,7 @@ a {
   position: sticky;
   top: 0;
   z-index: 100;
-  height: 60px;
+  height: var(--nav-height);
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -213,7 +214,7 @@ a {
   margin-bottom: 0;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 700px) {
   .profile-intro {
     flex-direction: column;
     align-items: center;
@@ -282,20 +283,15 @@ main .section.active-panel {
   padding-right: clamp(1.5rem, 4vw, 3.5rem);
 }
 
-#about.active-panel {
-  min-height: calc(100dvh - 61px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-
+#about.active-panel,
 #now.active-panel {
-  min-height: calc(100dvh - 61px);
+  min-height: calc(100dvh - var(--nav-height) - 1px);
+  max-height: calc(100dvh - var(--nav-height) - 1px);
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  justify-content: safe center;
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
 }
@@ -496,6 +492,54 @@ body.hero-locked .back-to-top {
 
 /* ---------- Projects ---------- */
 
+/* Master-detail layout: clicking a card shrinks the list into a compact
+   rail on the left and opens the description in a panel on the right,
+   so the other cards stay visible and clickable while reading one. */
+.expertise-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.expertise-layout .project-list {
+  flex: 1;
+  min-width: 0;
+}
+
+.expertise-layout .expertise-detail {
+  flex: 1;
+  min-width: 0;
+}
+
+.expertise-layout.detail-open .project-list {
+  flex: 0 0 240px;
+}
+
+.expertise-layout.detail-open .expertise-trigger {
+  padding: 0.7rem 0.9rem;
+}
+
+.expertise-layout.detail-open .expertise-trigger h3 {
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.expertise-layout.detail-open .project-tags,
+.expertise-layout.detail-open .expand-icon {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .expertise-layout {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .expertise-layout.detail-open .project-list {
+    display: none;
+  }
+}
+
 .project-list {
   display: flex;
   flex-direction: column;
@@ -528,10 +572,6 @@ body.hero-locked .back-to-top {
 
 #projectDetailBody p:last-child {
   margin-bottom: 0;
-}
-
-#projectsList[hidden] {
-  display: none;
 }
 
 /* ---------- Expertise detail panel ---------- */
@@ -611,10 +651,6 @@ body.hero-locked .back-to-top {
 }
 
 .expertise-detail[hidden] {
-  display: none;
-}
-
-#expertiseList[hidden] {
   display: none;
 }
 
@@ -977,6 +1013,38 @@ body.hero-locked .back-to-top {
 
 @media print {
   .navbar, .back-to-top, .theme-toggle { display: none; }
-  body { background: #fff; }
-  main .section { display: block !important; }
+
+  body {
+    background: #fff;
+  }
+
+  body.hero-locked {
+    overflow: visible;
+    height: auto;
+  }
+
+  main .section {
+    display: block;
+  }
+
+  #about.active-panel,
+  #now.active-panel {
+    min-height: auto;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  :root {
+    --text: #202733;
+    --muted: #626c7a;
+    --accent: #2f6690;
+    --accent-dark: #1f4b6b;
+    --accent-soft: #eaf2f8;
+    --accent-soft-2: #f4f8fb;
+    --border: #e1e6ec;
+    --bg: #ffffff;
+    --page-bg-1: #ffffff;
+    --page-bg-2: #ffffff;
+    --card-bg: #ffffff;
+  }
 }

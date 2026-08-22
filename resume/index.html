@@ -55,7 +55,7 @@
           <span class="stat-label">End-to-End Projects Directed</span>
         </div>
         <div class="stat">
-          <span class="stat-number" data-target="75" data-suffix="%">0</span>
+          <span class="stat-number" data-target="50" data-suffix="%">0</span>
           <span class="stat-label">Max Pipeline Latency Reduction</span>
         </div>
         <div class="stat">
@@ -104,65 +104,67 @@
     <section id="expertise" class="section">
       <h2><span class="section-index">03</span>Expertise &amp; Impact</h2>
 
-      <div class="expertise-detail" id="expertiseDetail" hidden>
-        <button class="expertise-detail-close" id="expertiseDetailClose" aria-label="Close">&times;</button>
-        <h3 id="expertiseDetailTitle"></h3>
-        <p class="project-tags" id="expertiseDetailTags"></p>
-        <ul id="expertiseDetailList"></ul>
-      </div>
+      <div class="expertise-layout" id="expertiseLayout">
+        <div class="project-list" id="expertiseList">
 
-      <div class="project-list" id="expertiseList">
+          <article class="project-card">
+            <button class="expertise-trigger" data-target="expertise-leadership" aria-expanded="false">
+              <div>
+                <h3>Leadership &amp; Data Strategy</h3>
+                <p class="project-tags">Team Leadership &middot; Vendor Management &middot; Executive Stakeholders</p>
+              </div>
+              <span class="expand-icon" aria-hidden="true">+</span>
+            </button>
+          </article>
 
-        <article class="project-card">
-          <button class="expertise-trigger" data-target="expertise-leadership" aria-expanded="false">
-            <div>
-              <h3>Leadership &amp; Data Strategy</h3>
-              <p class="project-tags">Team Leadership &middot; Vendor Management &middot; Executive Stakeholders</p>
-            </div>
-            <span class="expand-icon" aria-hidden="true">+</span>
-          </button>
-        </article>
+          <article class="project-card">
+            <button class="expertise-trigger" data-target="expertise-ai" aria-expanded="false">
+              <div>
+                <h3>AI Initiatives &amp; Advanced Analytics</h3>
+                <p class="project-tags">Databricks &middot; Vector Search &middot; Predictive Modeling</p>
+              </div>
+              <span class="expand-icon" aria-hidden="true">+</span>
+            </button>
+          </article>
 
-        <article class="project-card">
-          <button class="expertise-trigger" data-target="expertise-ai" aria-expanded="false">
-            <div>
-              <h3>AI Initiatives &amp; Advanced Analytics</h3>
-              <p class="project-tags">Databricks &middot; Vector Search &middot; Predictive Modeling</p>
-            </div>
-            <span class="expand-icon" aria-hidden="true">+</span>
-          </button>
-        </article>
+          <article class="project-card">
+            <button class="expertise-trigger" data-target="expertise-architecture" aria-expanded="false">
+              <div>
+                <h3>Data Architecture, Engineering &amp; Integration</h3>
+                <p class="project-tags">Medallion Architecture &middot; ETL/ELT &middot; Cloud Migration</p>
+              </div>
+              <span class="expand-icon" aria-hidden="true">+</span>
+            </button>
+          </article>
 
-        <article class="project-card">
-          <button class="expertise-trigger" data-target="expertise-architecture" aria-expanded="false">
-            <div>
-              <h3>Data Architecture, Engineering &amp; Integration</h3>
-              <p class="project-tags">Medallion Architecture &middot; ETL/ELT &middot; Cloud Migration</p>
-            </div>
-            <span class="expand-icon" aria-hidden="true">+</span>
-          </button>
-        </article>
+          <article class="project-card">
+            <button class="expertise-trigger" data-target="expertise-governance" aria-expanded="false">
+              <div>
+                <h3>Data Governance, Quality &amp; Security</h3>
+                <p class="project-tags">RBAC &middot; Metadata Tooling &middot; Compliance</p>
+              </div>
+              <span class="expand-icon" aria-hidden="true">+</span>
+            </button>
+          </article>
 
-        <article class="project-card">
-          <button class="expertise-trigger" data-target="expertise-governance" aria-expanded="false">
-            <div>
-              <h3>Data Governance, Quality &amp; Security</h3>
-              <p class="project-tags">RBAC &middot; Metadata Tooling &middot; Compliance</p>
-            </div>
-            <span class="expand-icon" aria-hidden="true">+</span>
-          </button>
-        </article>
+          <article class="project-card">
+            <button class="expertise-trigger" data-target="expertise-visualization" aria-expanded="false">
+              <div>
+                <h3>Data Visualization</h3>
+                <p class="project-tags">Power BI &middot; Tableau &middot; Qlik Sense</p>
+              </div>
+              <span class="expand-icon" aria-hidden="true">+</span>
+            </button>
+          </article>
 
-        <article class="project-card">
-          <button class="expertise-trigger" data-target="expertise-visualization" aria-expanded="false">
-            <div>
-              <h3>Data Visualization</h3>
-              <p class="project-tags">Power BI &middot; Tableau &middot; Qlik Sense</p>
-            </div>
-            <span class="expand-icon" aria-hidden="true">+</span>
-          </button>
-        </article>
+        </div>
 
+        <div class="expertise-detail" id="expertiseDetail" hidden>
+          <button class="expertise-detail-close" id="expertiseDetailClose" aria-label="Close">&times;</button>
+          <h3 id="expertiseDetailTitle"></h3>
+          <p class="project-tags" id="expertiseDetailTags"></p>
+          <ul id="expertiseDetailList"></ul>
+        </div>
       </div>
 
       <template id="expertise-leadership">
@@ -374,55 +376,57 @@
     <section id="projects" class="section">
       <h2><span class="section-index">06</span>Featured Projects</h2>
 
-      <div class="expertise-detail" id="projectDetail" hidden>
-        <button class="expertise-detail-close" id="projectDetailClose" aria-label="Close">&times;</button>
-        <h3 id="projectDetailTitle"></h3>
-        <p class="project-tags" id="projectDetailTags"></p>
-        <div id="projectDetailBody"></div>
-      </div>
+      <div class="expertise-layout" id="projectsLayout">
+        <div class="project-list" id="projectsList">
 
-      <div class="project-list" id="projectsList">
+          <article class="project-card">
+            <button class="expertise-trigger" data-target="project-ai" aria-expanded="false">
+              <div>
+                <h3>AI Document Intelligence &amp; Chatbot Agents</h3>
+                <p class="project-tags">Databricks &middot; Vector Database &middot; Semantic Search</p>
+              </div>
+              <span class="expand-icon" aria-hidden="true">+</span>
+            </button>
+          </article>
 
-        <article class="project-card">
-          <button class="expertise-trigger" data-target="project-ai" aria-expanded="false">
-            <div>
-              <h3>AI Document Intelligence &amp; Chatbot Agents</h3>
-              <p class="project-tags">Databricks &middot; Vector Database &middot; Semantic Search</p>
-            </div>
-            <span class="expand-icon" aria-hidden="true">+</span>
-          </button>
-        </article>
+          <article class="project-card">
+            <button class="expertise-trigger" data-target="project-migration" aria-expanded="false">
+              <div>
+                <h3>Enterprise Cloud Platform Migration</h3>
+                <p class="project-tags">Databricks &middot; Snowflake &middot; Microsoft Fabric &middot; Medallion Architecture</p>
+              </div>
+              <span class="expand-icon" aria-hidden="true">+</span>
+            </button>
+          </article>
 
-        <article class="project-card">
-          <button class="expertise-trigger" data-target="project-migration" aria-expanded="false">
-            <div>
-              <h3>Enterprise Cloud Platform Migration</h3>
-              <p class="project-tags">Databricks &middot; Snowflake &middot; Microsoft Fabric &middot; Medallion Architecture</p>
-            </div>
-            <span class="expand-icon" aria-hidden="true">+</span>
-          </button>
-        </article>
+          <article class="project-card">
+            <button class="expertise-trigger" data-target="project-governance" aria-expanded="false">
+              <div>
+                <h3>Enterprise Data Governance &amp; Quality Framework</h3>
+                <p class="project-tags">Data Governance &middot; RBAC &middot; Metadata Tooling</p>
+              </div>
+              <span class="expand-icon" aria-hidden="true">+</span>
+            </button>
+          </article>
 
-        <article class="project-card">
-          <button class="expertise-trigger" data-target="project-governance" aria-expanded="false">
-            <div>
-              <h3>Enterprise Data Governance &amp; Quality Framework</h3>
-              <p class="project-tags">Data Governance &middot; RBAC &middot; Metadata Tooling</p>
-            </div>
-            <span class="expand-icon" aria-hidden="true">+</span>
-          </button>
-        </article>
+          <article class="project-card">
+            <button class="expertise-trigger" data-target="project-analytics" aria-expanded="false">
+              <div>
+                <h3>Enterprise Analytics &amp; Decision Intelligence</h3>
+                <p class="project-tags">Power BI &middot; Tableau &middot; Qlik Sense &middot; Predictive Modeling</p>
+              </div>
+              <span class="expand-icon" aria-hidden="true">+</span>
+            </button>
+          </article>
 
-        <article class="project-card">
-          <button class="expertise-trigger" data-target="project-analytics" aria-expanded="false">
-            <div>
-              <h3>Enterprise Analytics &amp; Decision Intelligence</h3>
-              <p class="project-tags">Power BI &middot; Tableau &middot; Qlik Sense &middot; Predictive Modeling</p>
-            </div>
-            <span class="expand-icon" aria-hidden="true">+</span>
-          </button>
-        </article>
+        </div>
 
+        <div class="expertise-detail" id="projectDetail" hidden>
+          <button class="expertise-detail-close" id="projectDetailClose" aria-label="Close">&times;</button>
+          <h3 id="projectDetailTitle"></h3>
+          <p class="project-tags" id="projectDetailTags"></p>
+          <div id="projectDetailBody"></div>
+        </div>
       </div>
 
       <template id="project-ai">

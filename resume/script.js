@@ -37,6 +37,72 @@ navLinks.querySelectorAll("a").forEach((link) => {
   });
 });
 
+/* Card detail panels: clicking a card in a grid opens a shared panel under
+   the section heading (not an inline dropdown), hiding the grid until the
+   explicit close button is used. Reused for both Expertise and Projects. */
+function setupDetailPanel({ layoutId, listId, detailId, titleId, tagsId, bodyId, closeId }) {
+  const layout = document.getElementById(layoutId);
+  const list = document.getElementById(listId);
+  const detail = document.getElementById(detailId);
+  const titleEl = document.getElementById(titleId);
+  const tagsEl = document.getElementById(tagsId);
+  const bodyEl = document.getElementById(bodyId);
+  const closeBtn = document.getElementById(closeId);
+  const triggers = list.querySelectorAll(".expertise-trigger");
+
+  function close() {
+    detail.hidden = true;
+    triggers.forEach((btn) => btn.setAttribute("aria-expanded", "false"));
+    layout.classList.remove("detail-open");
+  }
+
+  function open(trigger) {
+    if (trigger.getAttribute("aria-expanded") === "true") {
+      close();
+      return;
+    }
+
+    const template = document.getElementById(trigger.dataset.target);
+    titleEl.textContent = trigger.querySelector("h3").textContent;
+    tagsEl.textContent = trigger.querySelector(".project-tags").textContent;
+
+    triggers.forEach((btn) => btn.setAttribute("aria-expanded", "false"));
+    trigger.setAttribute("aria-expanded", "true");
+
+    bodyEl.innerHTML = "";
+    bodyEl.appendChild(template.content.cloneNode(true));
+
+    detail.hidden = false;
+    layout.classList.add("detail-open");
+    detail.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  triggers.forEach((trigger) => trigger.addEventListener("click", () => open(trigger)));
+  if (closeBtn) closeBtn.addEventListener("click", close);
+
+  return { close };
+}
+
+const expertiseDetailPanel = setupDetailPanel({
+  layoutId: "expertiseLayout",
+  listId: "expertiseList",
+  detailId: "expertiseDetail",
+  titleId: "expertiseDetailTitle",
+  tagsId: "expertiseDetailTags",
+  bodyId: "expertiseDetailList",
+  closeId: "expertiseDetailClose",
+});
+
+const projectsDetailPanel = setupDetailPanel({
+  layoutId: "projectsLayout",
+  listId: "projectsList",
+  detailId: "projectDetail",
+  titleId: "projectDetailTitle",
+  tagsId: "projectDetailTags",
+  bodyId: "projectDetailBody",
+  closeId: "projectDetailClose",
+});
+
 /* Tabbed sections: clicking a nav link swaps which panel is visible
    instead of scrolling to it, so only one section renders at a time. */
 const panels = document.querySelectorAll("main > .section");
@@ -57,6 +123,9 @@ function showPanel(id, { updateHash = true, scroll = true } = {}) {
   if (link) link.classList.add("active");
 
   document.body.classList.toggle("hero-locked", panel.id === "about" || panel.id === "now");
+
+  expertiseDetailPanel.close();
+  projectsDetailPanel.close();
 
   if (updateHash) {
     history.pushState(null, "", "#" + panel.id);
@@ -117,67 +186,6 @@ const statsObserver = new IntersectionObserver(
 );
 
 statNumbers.forEach((el) => statsObserver.observe(el));
-
-/* Card detail panels: clicking a card in a grid opens a shared panel under
-   the section heading (not an inline dropdown), hiding the grid until the
-   explicit close button is used. Reused for both Expertise and Projects. */
-function setupDetailPanel({ listId, detailId, titleId, tagsId, bodyId, closeId }) {
-  const list = document.getElementById(listId);
-  const detail = document.getElementById(detailId);
-  const titleEl = document.getElementById(titleId);
-  const tagsEl = document.getElementById(tagsId);
-  const bodyEl = document.getElementById(bodyId);
-  const closeBtn = document.getElementById(closeId);
-  const triggers = list.querySelectorAll(".expertise-trigger");
-
-  function close() {
-    detail.hidden = true;
-    triggers.forEach((btn) => btn.setAttribute("aria-expanded", "false"));
-    list.hidden = false;
-  }
-
-  function open(trigger) {
-    if (trigger.getAttribute("aria-expanded") === "true") {
-      close();
-      return;
-    }
-
-    const template = document.getElementById(trigger.dataset.target);
-    titleEl.textContent = trigger.querySelector("h3").textContent;
-    tagsEl.textContent = trigger.querySelector(".project-tags").textContent;
-
-    triggers.forEach((btn) => btn.setAttribute("aria-expanded", "false"));
-    trigger.setAttribute("aria-expanded", "true");
-
-    bodyEl.innerHTML = "";
-    bodyEl.appendChild(template.content.cloneNode(true));
-
-    detail.hidden = false;
-    list.hidden = true;
-    detail.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  triggers.forEach((trigger) => trigger.addEventListener("click", () => open(trigger)));
-  if (closeBtn) closeBtn.addEventListener("click", close);
-}
-
-setupDetailPanel({
-  listId: "expertiseList",
-  detailId: "expertiseDetail",
-  titleId: "expertiseDetailTitle",
-  tagsId: "expertiseDetailTags",
-  bodyId: "expertiseDetailList",
-  closeId: "expertiseDetailClose",
-});
-
-setupDetailPanel({
-  listId: "projectsList",
-  detailId: "projectDetail",
-  titleId: "projectDetailTitle",
-  tagsId: "projectDetailTags",
-  bodyId: "projectDetailBody",
-  closeId: "projectDetailClose",
-});
 
 /* Back to top */
 const backToTop = document.getElementById("backToTop");
