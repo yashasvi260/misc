@@ -1,11 +1,19 @@
-# Deploys the Databricks Asset Bundle whenever a change under databricks/
-# lands on main -- including the PRs generate-ingestion-resource.yml opens.
-# This is the only thing that actually applies bundle changes to the
-# workspace; nothing here modifies the ingestion pipeline's live object list
-# on its own (that's reconcile, running daily inside the deployed job).
+# Deploys the Databricks Asset Bundle. This is the only thing that actually
+# applies bundle changes to the workspace; nothing here modifies the
+# ingestion pipeline's live object list on its own (that's reconcile,
+# running daily inside the deployed job).
 #
-# Required repo configuration (Settings -> Secrets and variables -> Actions):
-#   secrets.DATABRICKS_HOST / secrets.DATABRICKS_TOKEN -- workspace auth
+# Manual trigger only, for now -- databricks.yml still has placeholder
+# workspace hosts and no DATABRICKS_HOST/DATABRICKS_TOKEN secrets are
+# configured, so an automatic push trigger just fails on every commit.
+#
+# Once both are set up (Settings -> Secrets and variables -> Actions, and
+# real hosts in databricks.yml), switch `on:` back to:
+#   push:
+#     branches: [main]
+#     paths:
+#       - "databricks/**"
+# so merges from generate-ingestion-resource.yml's PRs deploy automatically.
 #
 # UNVERIFIED: confirm the bundle target here (`prod`) matches what you want
 # CI to deploy to -- see databricks.yml for the configured targets.
@@ -13,10 +21,7 @@
 name: Deploy Databricks bundle
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "databricks/**"
+  workflow_dispatch: {}
 
 jobs:
   deploy:

@@ -63,9 +63,9 @@ WHERE source_table = 'Orders';
 
   1. Run the **Generate ingestion resource** workflow (`.github/workflows/generate-ingestion-resource.yml`, manual `workflow_dispatch` trigger) — it regenerates `sqlserver_ingestion.generated.yml` from the control table and opens a PR with the diff.
   2. Review and merge the PR.
-  3. Merging to `main` triggers **Deploy Databricks bundle** (`.github/workflows/deploy-databricks-bundle.yml`), which runs `databricks bundle deploy`.
+  3. Run the **Deploy Databricks bundle** workflow (`.github/workflows/deploy-databricks-bundle.yml`) — also manual `workflow_dispatch` for now, which runs `databricks bundle deploy`.
 
-  Both workflows need `DATABRICKS_HOST` / `DATABRICKS_TOKEN` configured as repo secrets, and the generator workflow needs a `SQL_WAREHOUSE_ID` repo variable. Running the generator locally still works too, for testing:
+  Both workflows need `DATABRICKS_HOST` / `DATABRICKS_TOKEN` configured as repo secrets, and the generator workflow needs a `SQL_WAREHOUSE_ID` repo variable — and `databricks.yml` needs real workspace hosts in place of `<your-workspace-url>`. Until all of that's set up, deploy stays manual-trigger on purpose: an automatic push trigger would just fail on every commit. Once it's configured, `deploy-databricks-bundle.yml` can be switched to trigger on push to `main` (see the comment at the top of that file) so merging the generator's PR deploys automatically. Running the generator locally still works too, for testing:
 
   ```bash
   pip install -r scripts/requirements.txt
@@ -116,7 +116,7 @@ src/transform_pipeline/
   03_gold.py                                           per-customer and daily aggregates
 .github/workflows/
   generate-ingestion-resource.yml                     on demand: control table -> generated yml -> PR
-  deploy-databricks-bundle.yml                         on merge to main: databricks bundle deploy
+  deploy-databricks-bundle.yml                         manual trigger (for now): databricks bundle deploy
 ```
 
 ## Before deploying — things flagged as unverified
@@ -126,7 +126,7 @@ This scaffold's structure is solid, but a few specifics couldn't be confirmed ag
 - **`table_configuration.driving_column`** (`resources/sqlserver_ingestion.generated.yml`, `scripts/generate_ingestion_resource.py`, `scripts/reconcile_ingestion_pipeline.py`) — best-guess field name for query-based ingestion's watermark column. Confirm the real schema with `databricks bundle schema` or the Lakeflow Connect SQL Server docs in your workspace before deploying.
 - **No gateway pipeline** — CDC-based SQL Server ingestion requires a separate gateway pipeline; this assumes query-based mode doesn't. Verify that in your workspace before deploying; if it does, add a `gateway_definition` pipeline resource back and reference it from `ingestion_definition.ingestion_gateway_id` instead of `connection_name`.
 - **Pipelines API `spec` nesting** (`scripts/reconcile_ingestion_pipeline.py`) — assumes `GET /api/2.0/pipelines/{id}` returns the editable fields under a top-level `spec` key (falling back to the top-level response if not). Confirmed by reading the dry-run output before ever passing `--apply` — see above.
-- **Deploy target** (`.github/workflows/deploy-databricks-bundle.yml`) — deploys to `-t prod` on every merge to `main`; confirm that's the target you want CI deploying to (see `databricks.yml` for what's configured).
+- **Deploy target** (`.github/workflows/deploy-databricks-bundle.yml`) — deploys to `-t prod`; confirm that's the target you want CI deploying to (see `databricks.yml` for what's configured).
 
 `__START_AT`/`__END_AT` for `scd_type: 2` history is *not* on this list — those are produced by `dp.create_auto_cdc_flow` itself in `02_silver.py`, a stable, documented part of the Spark Declarative Pipelines API, not something this scaffold is guessing at. The `pipeline_task`/`depends_on` job structure in `daily_pipeline_job.yml` and the `${resources.pipelines.<key>.id}` cross-reference are also standard, documented Jobs/DAB features, not guesses.
 
