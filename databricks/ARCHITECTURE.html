@@ -99,7 +99,7 @@
   }
 
   .wrap {
-    max-width: 1140px;
+    max-width: min(1400px, 94vw);
     margin: 0 auto;
     padding: 56px 28px 96px;
     display: flex;
@@ -237,8 +237,15 @@
   svg.diagram {
     display: block;
     width: 100%;
-    min-width: 880px;
     height: auto;
+  }
+
+  svg.diagram--arch {
+    min-width: 900px;
+  }
+
+  svg.diagram--flow {
+    min-width: 720px;
   }
 
   figure {
@@ -250,6 +257,21 @@
     font-size: 0.92rem;
     color: var(--ink-soft);
     max-width: 82ch;
+  }
+
+  .scroll-hint {
+    display: none;
+    margin: 10px 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 920px) {
+    .scroll-hint {
+      display: block;
+    }
   }
 
   /* diagram text/shape classes, shared by both svgs */
@@ -398,7 +420,7 @@
     <div class="panel">
       <div class="diagram-scroll">
         <figure>
-          <svg class="diagram" viewBox="0 0 1320 700" role="img" aria-label="Architecture diagram: SQL Server data flows through the Lakeflow Connect ingestion pipeline into an append-only bronze layer, then through a Spark Declarative Pipeline into silver and gold tables. A Delta control table feeds a daily job that reconciles the ingestion pipeline's table list, then triggers the ingestion pipeline, then triggers the transform pipeline, in that order. A separate GitHub Actions workflow exists only to bootstrap the ingestion pipeline the first time or to review a change on demand.">
+          <svg class="diagram diagram--arch" viewBox="0 0 1320 700" role="img" aria-label="Architecture diagram: SQL Server data flows through the Lakeflow Connect ingestion pipeline into an append-only bronze layer, then through a Spark Declarative Pipeline into silver and gold tables. A Delta control table feeds a daily job that reconciles the ingestion pipeline's table list, then triggers the ingestion pipeline, then triggers the transform pipeline, in that order. A separate GitHub Actions workflow exists only to bootstrap the ingestion pipeline the first time or to review a change on demand.">
             <defs>
               <marker id="arrow1" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 z" class="dg-arrowhead"></path>
@@ -513,6 +535,7 @@
           </svg>
         </figure>
       </div>
+      <p class="scroll-hint">Scroll horizontally to see the full diagram →</p>
       <figcaption>
         Data flows left to right from SQL Server through append-only bronze into silver and gold.
         The control table (bottom) is the single source of truth. Once a day, the daily job reads
@@ -612,7 +635,7 @@
     <div class="panel">
       <div class="diagram-scroll">
         <figure>
-          <svg class="diagram" viewBox="0 0 960 620" role="img" aria-label="Workflow diagram: a row change in the control table reaches production one of two ways. Automatically, the daily job's next scheduled run reconciles the ingestion pipeline, pulls the table into bronze, then generates its silver flow. On demand, a GitHub Actions workflow generates the pipeline definition, opens a pull request for review, and deploys the bundle on merge -- used only to bootstrap the pipeline or to review a change before the daily job picks it up.">
+          <svg class="diagram diagram--flow" viewBox="0 0 960 620" role="img" aria-label="Workflow diagram: a row change in the control table reaches production one of two ways. Automatically, the daily job's next scheduled run reconciles the ingestion pipeline, pulls the table into bronze, then generates its silver flow. On demand, a GitHub Actions workflow generates the pipeline definition, opens a pull request for review, and deploys the bundle on merge -- used only to bootstrap the pipeline or to review a change before the daily job picks it up.">
             <defs>
               <marker id="arrow2" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 z" class="dg-arrowhead"></path>
@@ -687,6 +710,7 @@
           </svg>
         </figure>
       </div>
+      <p class="scroll-hint">Scroll horizontally to see the full diagram →</p>
       <figcaption>
         Changing a row in the control table reaches production automatically on the next daily
         run (left) — no deploy needed. The GitHub Actions path (right) is only needed to create
