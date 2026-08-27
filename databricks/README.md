@@ -1,5 +1,7 @@
 # SQL Server → Lakeflow → Spark Declarative Pipeline
 
+See [ARCHITECTURE.html](./ARCHITECTURE.html) for a diagrammed walkthrough of the pipeline and the add/disable-a-table workflow (open it in a browser — GitHub renders it as source, not as a page).
+
 Databricks Asset Bundle with three pieces:
 
 1. **`sqlserver_ingestion`** (`resources/sqlserver_ingestion.generated.yml`) — a Lakeflow Connect **query-based** ingestion pipeline for SQL Server. CDC isn't enabled on the source, so each table is pulled incrementally using a driving/watermark column, and landed **append-only** into bronze — every poll writes new rows, nothing is merged or updated in place.

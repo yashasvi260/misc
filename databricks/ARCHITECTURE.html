@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SQL Server Lakeflow Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #1A1D24;
+    --ink-soft: #565F71;
+    --bg: #EEF1F4;
+    --surface: #FFFFFF;
+    --surface-2: #F5F7F9;
+    --line: #C7CDD6;
+    --line-soft: #DDE2E8;
+
+    --accent: #1B6E7D;
+    --accent-soft: #E2EFF0;
+
+    --bronze: #9C6136;
+    --bronze-soft: #F1E4D6;
+    --silver: #66707E;
+    --silver-soft: #E9ECF0;
+    --gold: #A97A1E;
+    --gold-soft: #F4EAD1;
+
+    --warn: #A64A38;
+    --warn-soft: #F3E1DB;
+
+    --font-display: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+    --radius: 8px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #E7E9ED;
+      --ink-soft: #9AA3B2;
+      --bg: #12151B;
+      --surface: #1A1E27;
+      --surface-2: #20242F;
+      --line: #313746;
+      --line-soft: #262B36;
+
+      --accent: #5FC2D1;
+      --accent-soft: #17282B;
+
+      --bronze: #D19A6E;
+      --bronze-soft: #2C2119;
+      --silver: #AEB7C4;
+      --silver-soft: #232732;
+      --gold: #E0B563;
+      --gold-soft: #2E2717;
+
+      --warn: #E08776;
+      --warn-soft: #301F1B;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ink: #E7E9ED;
+    --ink-soft: #9AA3B2;
+    --bg: #12151B;
+    --surface: #1A1E27;
+    --surface-2: #20242F;
+    --line: #313746;
+    --line-soft: #262B36;
+
+    --accent: #5FC2D1;
+    --accent-soft: #17282B;
+
+    --bronze: #D19A6E;
+    --bronze-soft: #2C2119;
+    --silver: #AEB7C4;
+    --silver-soft: #232732;
+    --gold: #E0B563;
+    --gold-soft: #2E2717;
+
+    --warn: #E08776;
+    --warn-soft: #301F1B;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 56px 28px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+  }
+
+  /* ---- title block ---- */
+
+  .title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .subtitle {
+    max-width: 66ch;
+    color: var(--ink-soft);
+    font-size: 1.05rem;
+  }
+
+  code, .mono {
+    font-family: var(--font-mono);
+  }
+
+  /* ---- section scaffolding ---- */
+
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.4rem;
+    margin: 0;
+    letter-spacing: -0.005em;
+  }
+
+  .section-sub {
+    color: var(--ink-soft);
+    max-width: 72ch;
+    font-size: 0.98rem;
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* ---- legend ---- */
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .swatch-line {
+    width: 26px;
+    height: 0;
+    border-top: 2px solid var(--ink-soft);
+    display: inline-block;
+  }
+
+  .swatch-line.dashed {
+    border-top-style: dashed;
+  }
+
+  .swatch-box {
+    width: 16px;
+    height: 12px;
+    border-radius: 3px;
+    display: inline-block;
+    background: var(--accent-soft);
+    border: 2px solid var(--accent);
+  }
+
+  /* ---- diagram panel ---- */
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+
+  .diagram-scroll {
+    overflow-x: auto;
+  }
+
+  svg.diagram {
+    display: block;
+    width: 100%;
+    min-width: 880px;
+    height: auto;
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  figcaption {
+    margin-top: 14px;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    max-width: 82ch;
+  }
+
+  /* diagram text/shape classes, shared by both svgs */
+  .dg-node { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+  .dg-node-dashed { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 5 4; }
+  .dg-node-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2.25; }
+  .dg-node-bronze { fill: var(--bronze-soft); stroke: var(--bronze); stroke-width: 1.5; }
+  .dg-node-silver { fill: var(--silver-soft); stroke: var(--silver); stroke-width: 1.5; }
+  .dg-node-gold { fill: var(--gold-soft); stroke: var(--gold); stroke-width: 1.5; }
+  .dg-group { fill: none; stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 4 4; }
+
+  .dg-line-auto { fill: none; stroke: var(--ink-soft); stroke-width: 1.75; }
+  .dg-line-manual { fill: none; stroke: var(--ink-soft); stroke-width: 1.75; stroke-dasharray: 6 5; }
+  .dg-arrowhead { fill: var(--ink-soft); }
+
+  .dg-title { font: 600 13.5px var(--font-display); fill: var(--ink); }
+  .dg-title-lg { font: 700 14.5px var(--font-display); fill: var(--ink); }
+  .dg-mono { font: 500 10px var(--font-mono); fill: var(--ink-soft); }
+  .dg-sub { font: 400 10.5px var(--font-display); fill: var(--ink-soft); }
+  .dg-label { font: 500 10.5px var(--font-display); fill: var(--ink-soft); }
+  .dg-group-label { font: 600 11.5px var(--font-display); fill: var(--ink-soft); letter-spacing: 0.02em; }
+  .dg-chip-text { font: 600 9px var(--font-mono); fill: var(--accent); letter-spacing: 0.04em; }
+  .dg-lane-header { font: 700 10.5px var(--font-mono); fill: var(--ink); letter-spacing: 0.02em; text-transform: uppercase; }
+  .dg-lane-sub { font: 400 10px var(--font-display); fill: var(--ink-soft); }
+
+  /* ---- component cards ---- */
+
+  .group-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .card h4 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.98rem;
+    font-weight: 600;
+  }
+
+  .card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+
+  .card-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* ---- known unknowns ---- */
+
+  .warn-panel {
+    background: var(--warn-soft);
+    border: 1px solid var(--warn);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .warn-panel h3 {
+    color: var(--warn);
+  }
+
+  .warn-list {
+    margin: 0;
+    padding-left: 1.2em;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .warn-list li {
+    font-size: 0.94rem;
+  }
+
+  .warn-list strong {
+    color: var(--ink);
+  }
+
+  footer {
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--line-soft);
+    padding-top: 20px;
+  }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 40px 18px 72px; gap: 48px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="title-block">
+    <span class="eyebrow">Data Engineering · Databricks Asset Bundle</span>
+    <h1>SQL Server → Lakeflow → Medallion Pipeline</h1>
+    <p class="subtitle">
+      A query-based Lakeflow Connect ingestion, a Delta control table, and a Spark Declarative
+      Pipeline turn SQL Server tables into bronze, silver, and gold — and adding or disabling a
+      source table is a row change, not a code change.
+    </p>
+  </div>
+
+  <section aria-labelledby="architecture-h">
+    <div class="section-head">
+      <h2 id="architecture-h">Architecture</h2>
+      <p class="section-sub">
+        One control table drives three consumers, and one daily job triggers both pipelines in
+        order: reconcile the table list, run ingestion, then run the transform.
+      </p>
+    </div>
+
+    <div class="legend">
+      <span class="legend-item"><span class="swatch-line"></span>Automatic / scheduled</span>
+      <span class="legend-item"><span class="swatch-line dashed"></span>Manual / on-demand</span>
+      <span class="legend-item"><span class="swatch-box"></span>Source of truth</span>
+    </div>
+
+    <div class="panel">
+      <div class="diagram-scroll">
+        <figure>
+          <svg class="diagram" viewBox="0 0 1320 700" role="img" aria-label="Architecture diagram: SQL Server data flows through the Lakeflow Connect ingestion pipeline into an append-only bronze layer, then through a Spark Declarative Pipeline into silver and gold tables. A Delta control table feeds a daily job that reconciles the ingestion pipeline's table list, then triggers the ingestion pipeline, then triggers the transform pipeline, in that order. A separate GitHub Actions workflow exists only to bootstrap the ingestion pipeline the first time or to review a change on demand.">
+            <defs>
+              <marker id="arrow1" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" class="dg-arrowhead"></path>
+              </marker>
+            </defs>
+
+            <!-- top flow: SQL Server -> Ingestion -> Bronze -> Raw -> Silver -> Gold -->
+            <rect x="30" y="70" width="170" height="80" rx="6" class="dg-node-dashed"></rect>
+            <text x="115" y="105" text-anchor="middle" class="dg-title">SQL Server</text>
+            <text x="115" y="123" text-anchor="middle" class="dg-sub">source database</text>
+
+            <path d="M200,110 H316" class="dg-line-auto" marker-end="url(#arrow1)"></path>
+            <text x="258" y="99" text-anchor="middle" class="dg-label">polls driving_column</text>
+
+            <rect x="320" y="70" width="210" height="80" rx="6" class="dg-node"></rect>
+            <text x="425" y="100" text-anchor="middle" class="dg-title">Ingestion Pipeline</text>
+            <text x="425" y="118" text-anchor="middle" class="dg-mono">sqlserver_ingestion</text>
+            <text x="425" y="135" text-anchor="middle" class="dg-sub">Lakeflow Connect · query-based</text>
+
+            <path d="M530,110 H646" class="dg-line-auto" marker-end="url(#arrow1)"></path>
+            <text x="588" y="99" text-anchor="middle" class="dg-label">append-only insert</text>
+
+            <rect x="650" y="70" width="150" height="80" rx="6" class="dg-node-bronze"></rect>
+            <text x="725" y="100" text-anchor="middle" class="dg-title">Bronze</text>
+            <text x="725" y="118" text-anchor="middle" class="dg-sub">catalog.schema</text>
+            <text x="725" y="135" text-anchor="middle" class="dg-sub">append-only landing</text>
+
+            <path d="M800,110 H911" class="dg-line-auto" marker-end="url(#arrow1)"></path>
+            <text x="857" y="99" text-anchor="middle" class="dg-label">readStream()</text>
+
+            <rect x="890" y="35" width="400" height="170" rx="6" class="dg-group"></rect>
+            <text x="905" y="55" class="dg-group-label">TRANSFORM PIPELINE</text>
+            <text x="905" y="68" class="dg-sub">Spark Declarative Pipeline</text>
+
+            <rect x="915" y="70" width="110" height="80" rx="6" class="dg-node"></rect>
+            <text x="970" y="100" text-anchor="middle" class="dg-title">Raw view</text>
+            <text x="970" y="118" text-anchor="middle" class="dg-mono">raw_&lt;table&gt;</text>
+            <text x="970" y="135" text-anchor="middle" class="dg-sub">streaming read</text>
+
+            <path d="M1025,110 H1046" class="dg-line-auto" marker-end="url(#arrow1)"></path>
+
+            <rect x="1050" y="70" width="110" height="80" rx="6" class="dg-node-silver"></rect>
+            <text x="1105" y="100" text-anchor="middle" class="dg-title">Silver</text>
+            <text x="1105" y="118" text-anchor="middle" class="dg-mono">silver_&lt;table&gt;</text>
+            <text x="1105" y="135" text-anchor="middle" class="dg-sub">dedup + SCD1/2</text>
+
+            <path d="M1160,110 H1181" class="dg-line-auto" marker-end="url(#arrow1)"></path>
+
+            <rect x="1185" y="70" width="95" height="80" rx="6" class="dg-node-gold"></rect>
+            <text x="1232" y="100" text-anchor="middle" class="dg-title">Gold</text>
+            <text x="1232" y="118" text-anchor="middle" class="dg-sub">aggregates</text>
+
+            <!-- mid row: GitHub Actions (on-demand bootstrap) + daily job (automatic) -->
+            <rect x="25" y="380" width="260" height="90" rx="6" class="dg-node-dashed"></rect>
+            <text x="155" y="410" text-anchor="middle" class="dg-title">GitHub Actions</text>
+            <text x="155" y="428" text-anchor="middle" class="dg-sub">generate + bundle deploy</text>
+            <text x="155" y="445" text-anchor="middle" class="dg-sub">on demand · bootstrap / audit</text>
+
+            <!-- GitHub Actions -> ingestion pipeline (dashed) -->
+            <path d="M155,380 V230 H336" class="dg-line-manual" marker-end="url(#arrow1)"></path>
+            <text x="165" y="222" class="dg-label">generates YAML → PR → bundle deploy (CI)</text>
+
+            <!-- daily job group -->
+            <rect x="300" y="370" width="960" height="130" rx="6" class="dg-group"></rect>
+            <text x="315" y="388" class="dg-group-label">DAILY JOB · once per day</text>
+            <text x="315" y="404" class="dg-sub">reconcile → run_ingestion → run_transform, each depends_on the last</text>
+
+            <rect x="320" y="420" width="280" height="60" rx="6" class="dg-node"></rect>
+            <text x="460" y="455" text-anchor="middle" class="dg-title">reconcile</text>
+
+            <path d="M600,450 H626" class="dg-line-auto" marker-end="url(#arrow1)"></path>
+            <text x="613" y="442" text-anchor="middle" class="dg-label">depends_on</text>
+
+            <rect x="630" y="420" width="280" height="60" rx="6" class="dg-node"></rect>
+            <text x="770" y="446" text-anchor="middle" class="dg-title">run_ingestion</text>
+            <text x="770" y="463" text-anchor="middle" class="dg-sub">pipeline_task</text>
+
+            <path d="M910,450 H936" class="dg-line-auto" marker-end="url(#arrow1)"></path>
+            <text x="923" y="442" text-anchor="middle" class="dg-label">depends_on</text>
+
+            <rect x="950" y="420" width="280" height="60" rx="6" class="dg-node"></rect>
+            <text x="1090" y="446" text-anchor="middle" class="dg-title">run_transform</text>
+            <text x="1090" y="463" text-anchor="middle" class="dg-sub">pipeline_task</text>
+
+            <!-- run_ingestion triggers the real ingestion pipeline -->
+            <path d="M770,420 V300 H425 V154" class="dg-line-auto" marker-end="url(#arrow1)"></path>
+            <text x="610" y="292" text-anchor="middle" class="dg-label">triggers pipeline_task</text>
+
+            <!-- run_transform triggers the real transform pipeline group -->
+            <path d="M1090,420 V209" class="dg-line-auto" marker-end="url(#arrow1)"></path>
+
+            <!-- control table hub -->
+            <rect x="560" y="560" width="280" height="110" rx="6" class="dg-node-accent"></rect>
+            <rect x="635" y="576" width="130" height="18" rx="4" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"></rect>
+            <text x="700" y="589" text-anchor="middle" class="dg-chip-text">SOURCE OF TRUTH</text>
+            <text x="700" y="616" text-anchor="middle" class="dg-title-lg">Control Table</text>
+            <text x="700" y="634" text-anchor="middle" class="dg-mono">main.sqlserver_ingestion.</text>
+            <text x="700" y="648" text-anchor="middle" class="dg-mono">sqlserver_ingestion_control</text>
+            <text x="700" y="664" text-anchor="middle" class="dg-sub">one row per source table</text>
+
+            <!-- branch: control table -> reconcile task (solid, once daily) -->
+            <path d="M700,560 V500 H460 V484" class="dg-line-auto" marker-end="url(#arrow1)"></path>
+            <text x="475" y="493" text-anchor="middle" class="dg-label">fetch_enabled_tables() — once daily, before ingestion</text>
+
+            <!-- branch: control table -> transform pipeline group direct read (solid, every run) -->
+            <path d="M700,560 V520 H1290 V120" class="dg-line-auto" marker-end="url(#arrow1)"></path>
+            <text x="1000" y="512" text-anchor="middle" class="dg-label">reads control_table directly — every pipeline run</text>
+
+            <!-- branch: control table -> GitHub Actions (dashed, on demand) -->
+            <path d="M700,560 V530 H155 V474" class="dg-line-manual" marker-end="url(#arrow1)"></path>
+            <text x="163" y="522" class="dg-label">fetch_enabled_tables() — on demand (CI)</text>
+          </svg>
+        </figure>
+      </div>
+      <figcaption>
+        Data flows left to right from SQL Server through append-only bronze into silver and gold.
+        The control table (bottom) is the single source of truth. Once a day, the daily job reads
+        it, reconciles the ingestion pipeline's table list, then triggers ingestion and transform
+        in order — the transform pipeline also reads the control table directly during that same
+        run. GitHub Actions (left) exists only to create the ingestion pipeline resource the first
+        time, or to review a change on demand.
+      </figcaption>
+    </div>
+  </section>
+
+  <section aria-labelledby="components-h">
+    <div class="section-head">
+      <h2 id="components-h">Components</h2>
+      <p class="section-sub">What each piece is responsible for, grouped by where it sits in the flow above.</p>
+    </div>
+
+    <div class="card-group">
+      <p class="group-label">Bundle &amp; control table</p>
+      <div class="card-grid">
+        <div class="card">
+          <h4>Bundle root</h4>
+          <p>Catalog/schema variables, the control table path, the SQL warehouse ID, and the dev/prod targets.</p>
+        </div>
+        <div class="card">
+          <h4>Control table DDL</h4>
+          <p>Creates <code>sqlserver_ingestion_control</code> and seeds the two example rows: source/destination mapping, driving column, primary keys, SCD type, enabled flag.</p>
+        </div>
+        <div class="card">
+          <h4>Shared read helper</h4>
+          <p><code>fetch_enabled_tables()</code> — queries the control table via a SQL warehouse. Used by both the generator and the reconciler.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-group">
+      <p class="group-label">Ingestion</p>
+      <div class="card-grid">
+        <div class="card">
+          <h4>Ingestion pipeline resource</h4>
+          <p>Generated Lakeflow Connect pipeline definition — never hand-edited, overwritten by the generator or the reconciler. No schedule of its own — triggered daily by <code>run_ingestion</code>.</p>
+        </div>
+        <div class="card">
+          <h4>Bootstrap generator</h4>
+          <p>Control table → generated pipeline YAML. Runs via a GitHub Actions workflow, on demand: to bootstrap the pipeline, or any time you want to review a change as a pull request before it's deployed.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-group">
+      <p class="group-label">Daily orchestration</p>
+      <div class="card-grid">
+        <div class="card">
+          <h4>Scheduled job</h4>
+          <p>Once-daily Databricks Job: <code>reconcile</code> → <code>run_ingestion</code> → <code>run_transform</code>, chained with <code>depends_on</code> so a reconcile failure blocks that day's run. Ships paused, with <code>--apply</code> left off, until the dry-run output is verified by hand.</p>
+        </div>
+        <div class="card">
+          <h4>Live pipeline reconciler</h4>
+          <p>Control table → deployed pipeline, via <code>GET</code> → replace <code>objects</code> → <code>PUT</code> the full spec. Dry-run by default; <code>--apply</code> is opt-in.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-group">
+      <p class="group-label">Transform pipeline</p>
+      <div class="card-grid">
+        <div class="card">
+          <h4>Declarative pipeline resource</h4>
+          <p>Serverless Spark Declarative Pipeline. Passes <code>bronze_catalog</code>, <code>bronze_schema</code>, and <code>control_table</code> in as configuration. No schedule of its own — triggered daily by <code>run_transform</code>.</p>
+        </div>
+        <div class="card">
+          <h4>Raw layer</h4>
+          <p>Loops over enabled control-table rows; one streaming <code>raw_&lt;table&gt;</code> view per row.</p>
+        </div>
+        <div class="card">
+          <h4>Silver layer</h4>
+          <p>One <code>create_auto_cdc_flow</code> per enabled row, keyed by <code>primary_keys</code>, sequenced by <code>driving_column</code>, historized per <code>scd_type</code>.</p>
+        </div>
+        <div class="card">
+          <h4>Gold layer</h4>
+          <p><code>gold_customer_order_summary</code> and <code>gold_daily_order_volume</code> — aggregates over silver, raw SQL Server column casing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="workflow-h">
+    <div class="section-head">
+      <h2 id="workflow-h">Workflow: adding or disabling a table</h2>
+      <p class="section-sub">
+        Same legend as above. Changing a row in the control table reaches production one of two
+        ways — automatically, on the next daily run, or manually, if you're bootstrapping or
+        reviewing a change first.
+      </p>
+    </div>
+
+    <div class="panel">
+      <div class="diagram-scroll">
+        <figure>
+          <svg class="diagram" viewBox="0 0 960 620" role="img" aria-label="Workflow diagram: a row change in the control table reaches production one of two ways. Automatically, the daily job's next scheduled run reconciles the ingestion pipeline, pulls the table into bronze, then generates its silver flow. On demand, a GitHub Actions workflow generates the pipeline definition, opens a pull request for review, and deploys the bundle on merge -- used only to bootstrap the pipeline or to review a change before the daily job picks it up.">
+            <defs>
+              <marker id="arrow2" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" class="dg-arrowhead"></path>
+              </marker>
+            </defs>
+
+            <rect x="310" y="25" width="300" height="70" rx="6" class="dg-node-accent"></rect>
+            <rect x="395" y="35" width="130" height="16" rx="4" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"></rect>
+            <text x="460" y="47" text-anchor="middle" class="dg-chip-text">SOURCE OF TRUTH</text>
+            <text x="460" y="72" text-anchor="middle" class="dg-title-lg">Row added / changed</text>
+            <text x="460" y="88" text-anchor="middle" class="dg-mono">sqlserver_ingestion_control</text>
+
+            <path d="M460,95 V140 H230 V171" class="dg-line-auto" marker-end="url(#arrow2)"></path>
+            <path d="M460,95 V140 H690 V171" class="dg-line-auto" marker-end="url(#arrow2)"></path>
+
+            <!-- lane headers -->
+            <text x="230" y="152" text-anchor="middle" class="dg-lane-header">Daily job — next run</text>
+            <text x="230" y="166" text-anchor="middle" class="dg-lane-sub">automatic, if unpaused</text>
+
+            <text x="690" y="152" text-anchor="middle" class="dg-lane-header">GitHub Actions</text>
+            <text x="690" y="166" text-anchor="middle" class="dg-lane-sub">on demand — bootstrap / audit only</text>
+
+            <!-- lane A: daily job (reconcile -> ingest -> transform) -->
+            <rect x="40" y="185" width="380" height="70" rx="6" class="dg-node"></rect>
+            <text x="230" y="211" text-anchor="middle" class="dg-title">Daily job fires</text>
+            <text x="230" y="228" text-anchor="middle" class="dg-sub">reconcile checks the control table</text>
+            <text x="230" y="245" text-anchor="middle" class="dg-sub">for changes since yesterday</text>
+
+            <path d="M230,255 V296" class="dg-line-auto" marker-end="url(#arrow2)"></path>
+            <text x="240" y="280" class="dg-label">if changed: updates object list</text>
+
+            <rect x="40" y="300" width="380" height="70" rx="6" class="dg-node"></rect>
+            <text x="230" y="331" text-anchor="middle" class="dg-title">run_ingestion</text>
+            <text x="230" y="348" text-anchor="middle" class="dg-sub">pulls the new/changed table into bronze</text>
+
+            <path d="M230,370 V411" class="dg-line-auto" marker-end="url(#arrow2)"></path>
+            <text x="240" y="395" class="dg-label">bronze updated</text>
+
+            <rect x="40" y="415" width="380" height="70" rx="6" class="dg-node"></rect>
+            <text x="230" y="441" text-anchor="middle" class="dg-title">run_transform</text>
+            <text x="230" y="458" text-anchor="middle" class="dg-sub">01_raw_views.py + 02_silver.py pick up the row</text>
+
+            <path d="M230,485 V526" class="dg-line-auto" marker-end="url(#arrow2)"></path>
+
+            <rect x="40" y="530" width="380" height="70" rx="6" class="dg-node"></rect>
+            <text x="230" y="561" text-anchor="middle" class="dg-title">Table is live in bronze → silver</text>
+            <text x="230" y="578" text-anchor="middle" class="dg-sub">dedup / SCD applied per row config</text>
+
+            <!-- lane B: GitHub Actions (on demand, dashed) -->
+            <rect x="500" y="185" width="380" height="70" rx="6" class="dg-node-dashed"></rect>
+            <text x="690" y="216" text-anchor="middle" class="dg-title">Workflow dispatched</text>
+            <text x="690" y="233" text-anchor="middle" class="dg-sub">an engineer triggers the Actions run</text>
+
+            <path d="M690,255 V296" class="dg-line-manual" marker-end="url(#arrow2)"></path>
+
+            <rect x="500" y="300" width="380" height="70" rx="6" class="dg-node-dashed"></rect>
+            <text x="690" y="331" text-anchor="middle" class="dg-title">Generates the pipeline definition</text>
+            <text x="690" y="348" text-anchor="middle" class="dg-sub">from the current control table</text>
+
+            <path d="M690,370 V411" class="dg-line-manual" marker-end="url(#arrow2)"></path>
+            <text x="700" y="395" class="dg-label">opens a pull request</text>
+
+            <rect x="500" y="415" width="380" height="70" rx="6" class="dg-node-dashed"></rect>
+            <text x="690" y="441" text-anchor="middle" class="dg-title">Reviewed as a pull request</text>
+
+            <path d="M690,485 V526" class="dg-line-manual" marker-end="url(#arrow2)"></path>
+            <text x="700" y="512" text-anchor="middle" class="dg-label">on merge</text>
+
+            <rect x="500" y="530" width="380" height="70" rx="6" class="dg-node-dashed"></rect>
+            <text x="690" y="556" text-anchor="middle" class="dg-title">CI runs bundle deploy</text>
+            <text x="690" y="573" text-anchor="middle" class="dg-sub">pipeline resource created / updated</text>
+          </svg>
+        </figure>
+      </div>
+      <figcaption>
+        Changing a row in the control table reaches production automatically on the next daily
+        run (left) — no deploy needed. The GitHub Actions path (right) is only needed to create
+        the ingestion pipeline resource the first time, or to review a change as a pull request
+        before the daily job picks it up.
+      </figcaption>
+    </div>
+  </section>
+
+  <section aria-labelledby="unknowns-h">
+    <div class="section-head">
+      <h2 id="unknowns-h">Before deploying</h2>
+    </div>
+
+    <div class="warn-panel">
+      <h3>Flagged as unverified</h3>
+      <ul class="warn-list">
+        <li>
+          <strong>table_configuration.driving_column</strong> — best-guess field name for query-based
+          ingestion's watermark column. Confirm with <code>databricks bundle schema</code> or the
+          Lakeflow Connect SQL Server docs before deploying.
+        </li>
+        <li>
+          <strong>No gateway pipeline</strong> — CDC-based SQL Server ingestion requires a separate
+          gateway pipeline; this assumes query-based mode doesn't. If it does, add a
+          <code>gateway_definition</code> resource and reference it from
+          <code>ingestion_gateway_id</code> instead of <code>connection_name</code>.
+        </li>
+        <li>
+          <strong>Pipelines API <code>spec</code> nesting</strong> — the reconciler assumes
+          <code>GET /api/2.0/pipelines/{id}</code> nests the editable fields under a top-level
+          <code>spec</code> key. Run <code>reconcile_ingestion_pipeline.py</code> once without
+          <code>--apply</code> and read the printed response before ever enabling the schedule.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    sqlserver_lakeflow_pipeline · Databricks Asset Bundle · see README.md for setup and deploy commands
+  </footer>
+
+</div>
+</body>
+</html>
