@@ -1,0 +1,53 @@
+# Regenerates databricks/resources/sqlserver_ingestion.generated.yml from the
+# control table and opens a PR with the diff. Manual trigger only -- the
+# control table lives in Databricks, not git, so there's no push/PR event to
+# key off of; a person (or the daily job's own failure notification) decides
+# when it's worth re-running this.
+#
+# This does NOT deploy anything. Merging the PR this opens is what triggers
+# deploy-databricks-bundle.yml below.
+#
+# Required repo configuration (Settings -> Secrets and variables -> Actions):
+#   secrets.DATABRICKS_HOST / secrets.DATABRICKS_TOKEN -- workspace auth
+#   vars.SQL_WAREHOUSE_ID                              -- warehouse the control table is queried through
+
+name: Generate ingestion resource
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: databricks
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install -r scripts/requirements.txt
+
+      - run: python scripts/generate_ingestion_resource.py --warehouse-id "${{ vars.SQL_WAREHOUSE_ID }}"
+
+      - uses: peter-evans/create-pull-request@v6
+        with:
+          add-paths: databricks/resources/sqlserver_ingestion.generated.yml
+          commit-message: "databricks: regenerate sqlserver_ingestion from control table"
+          branch: ci/regenerate-sqlserver-ingestion
+          title: "Regenerate sqlserver_ingestion pipeline definition"
+          body: >
+            Auto-generated from the current state of
+            `main.sqlserver_ingestion.sqlserver_ingestion_control` by the
+            "Generate ingestion resource" workflow. Review the diff, then
+            merge to deploy via deploy-databricks-bundle.yml.

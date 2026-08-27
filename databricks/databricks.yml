@@ -1,0 +1,35 @@
+bundle:
+  name: sqlserver_lakeflow_pipeline
+
+variables:
+  bronze_catalog:
+    description: Catalog the SQL Server ingestion pipeline lands raw tables into.
+    default: main
+  bronze_schema:
+    default: sqlserver_bronze
+  silver_gold_catalog:
+    description: Catalog the declarative transform pipeline writes silver/gold tables into.
+    default: main
+  silver_gold_schema:
+    default: sqlserver_analytics
+  control_table:
+    description: The Delta table (scripts/create_control_table.sql) that drives which tables get ingested and how the silver layer processes them.
+    default: main.sqlserver_ingestion.sqlserver_ingestion_control
+  control_table_warehouse_id:
+    description: SQL warehouse ID the generator/reconciler scripts use to query the control table.
+    default: <sql-warehouse-id>
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: <your-workspace-url>
+
+  prod:
+    mode: production
+    workspace:
+      host: <your-workspace-url>

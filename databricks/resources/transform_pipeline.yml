@@ -1,0 +1,26 @@
+# Spark Declarative Pipeline that turns the append-only raw tables Lakeflow
+# Connect lands from SQL Server into silver (deduped/historized) and gold
+# (aggregated) tables. Runs independently of the ingestion pipeline in
+# resources/sqlserver_ingestion.generated.yml -- it just reads whatever is
+# currently in the bronze catalog/schema.
+#
+# 01_raw_views.py and 02_silver.py read `control_table` directly (via Spark,
+# at pipeline-definition time) to generate one raw view + one silver CDC
+# flow per enabled row -- the same control table that drives ingestion (see
+# scripts/create_control_table.sql), so adding a table there is enough to
+# get bronze-through-silver processing here too.
+
+resources:
+  pipelines:
+    transform_pipeline:
+      name: sqlserver-transform-pipeline-${bundle.target}
+      catalog: ${var.silver_gold_catalog}
+      schema: ${var.silver_gold_schema}
+      serverless: true
+      configuration:
+        bronze_catalog: ${var.bronze_catalog}
+        bronze_schema: ${var.bronze_schema}
+        control_table: ${var.control_table}
+      libraries:
+        - glob:
+            include: ../src/transform_pipeline/**

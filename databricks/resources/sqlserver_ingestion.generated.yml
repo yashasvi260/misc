@@ -1,0 +1,52 @@
+# GENERATED FILE -- do not hand-edit.
+#
+# Produced by scripts/generate_ingestion_resource.py from
+# `main.sqlserver_ingestion.sqlserver_ingestion_control`. To add, remove, or
+# disable a table, change a row in that table -- resources/daily_pipeline_job.yml
+# reconciles the deployed pipeline against it once a day, before that day's
+# ingestion run; re-run this script only to review a change as a git diff or
+# redo the initial bootstrap deploy.
+#
+# Bronze is append-only -- table_configuration only sets the driving column
+# used for incremental extraction, no primary_keys/scd_type (that merge/SCD
+# logic lives in src/transform_pipeline/02_silver.py instead, driven by the
+# same control table).
+#
+# UNVERIFIED: confirm `table_configuration.driving_column` is the right key
+# for query-based ingestion in your workspace (`databricks bundle schema` or
+# the Lakeflow Connect SQL Server docs) before deploying. Also confirm
+# whether query-based ingestion still needs a separate gateway pipeline --
+# CDC-based ingestion does, this assumes query-based does not.
+#
+# This checked-in copy reflects the two example rows seeded by
+# scripts/create_control_table.sql -- replace <sqlserver_connection_name>
+# and <source_database>, or just re-run the generator once your control
+# table has real rows.
+
+resources:
+  pipelines:
+    sqlserver_ingestion:
+      name: sqlserver-ingestion-pipeline-${bundle.target}
+      catalog: ${var.bronze_catalog}
+      schema: ${var.bronze_schema}
+      ingestion_definition:
+        connection_name: <sqlserver_connection_name>
+        objects:
+          - table:
+              source_catalog: <source_database>
+              source_schema: dbo
+              source_table: Customers
+              destination_catalog: main
+              destination_schema: sqlserver_bronze
+              destination_table: customers
+              table_configuration:
+                driving_column: ModifiedDate
+          - table:
+              source_catalog: <source_database>
+              source_schema: dbo
+              source_table: Orders
+              destination_catalog: main
+              destination_schema: sqlserver_bronze
+              destination_table: orders
+              table_configuration:
+                driving_column: ModifiedDate

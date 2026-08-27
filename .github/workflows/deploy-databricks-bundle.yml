@@ -1,0 +1,37 @@
+# Deploys the Databricks Asset Bundle whenever a change under databricks/
+# lands on main -- including the PRs generate-ingestion-resource.yml opens.
+# This is the only thing that actually applies bundle changes to the
+# workspace; nothing here modifies the ingestion pipeline's live object list
+# on its own (that's reconcile, running daily inside the deployed job).
+#
+# Required repo configuration (Settings -> Secrets and variables -> Actions):
+#   secrets.DATABRICKS_HOST / secrets.DATABRICKS_TOKEN -- workspace auth
+#
+# UNVERIFIED: confirm the bundle target here (`prod`) matches what you want
+# CI to deploy to -- see databricks.yml for the configured targets.
+
+name: Deploy Databricks bundle
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "databricks/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: databricks
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: databricks/setup-cli@main
+
+      - run: databricks bundle validate -t prod
+
+      - run: databricks bundle deploy -t prod

@@ -1,0 +1,63 @@
+# Single daily orchestration job: reconcile -> ingest -> transform, in that
+# order. Reconciling here instead of on its own hourly schedule means the
+# control table only gets checked once a day, right before it matters --
+# not every hour against a table that rarely changes.
+#
+# depends_on also makes this fail-closed: if the reconcile task errors (e.g.
+# the control table is unreachable), the ingestion and transform tasks never
+# run that day, instead of running against a stale or partially-updated
+# object list.
+#
+# IMPORTANT: before enabling this schedule, run
+# scripts/reconcile_ingestion_pipeline.py by hand *without* --apply and read
+# the dry-run output -- it prints the full current pipeline spec so you can
+# confirm the `spec` key assumption in that script matches your workspace.
+# Only add --apply to the reconcile task's parameters below once you've
+# verified that.
+
+resources:
+  jobs:
+    daily_sqlserver_pipeline:
+      name: daily-sqlserver-pipeline-${bundle.target}
+      schedule:
+        quartz_cron_expression: "0 0 6 * * ?" # 06:00 daily -- adjust to your preferred run time
+        timezone_id: UTC
+        pause_status: PAUSED # flip to UNPAUSED once verified per the note above
+      job_clusters:
+        - job_cluster_key: reconcile_cluster
+          new_cluster:
+            spark_version: 15.4.x-scala2.12
+            node_type_id: <node-type-id> # e.g. i3.xlarge (AWS) / Standard_DS3_v2 (Azure)
+            num_workers: 0
+            spark_conf:
+              spark.databricks.cluster.profile: singleNode
+            custom_tags:
+              ResourceClass: SingleNode
+      tasks:
+        - task_key: reconcile
+          job_cluster_key: reconcile_cluster
+          spark_python_task:
+            python_file: ../scripts/reconcile_ingestion_pipeline.py
+            parameters:
+              - "--warehouse-id"
+              - ${var.control_table_warehouse_id}
+              - "--pipeline-name"
+              - sqlserver-ingestion-pipeline-${bundle.target}
+              # Add "--apply" here once you've verified the dry-run output by hand (see note above).
+              # Without it this task only logs what it would change -- the ingestion/transform
+              # tasks below still run, just against whatever object list is already deployed.
+          libraries:
+            - pypi:
+                package: databricks-sdk
+
+        - task_key: run_ingestion
+          depends_on:
+            - task_key: reconcile
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.sqlserver_ingestion.id}
+
+        - task_key: run_transform
+          depends_on:
+            - task_key: run_ingestion
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.transform_pipeline.id}
