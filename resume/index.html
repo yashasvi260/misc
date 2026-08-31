@@ -92,7 +92,7 @@
           <li>Own the enterprise data and AI roadmap end-to-end, from cloud lakehouse architecture through to production-grade AI use cases.</li>
           <li>Lead the data platform's current-to-future-state rebuild, applying modern lakehouse and governance methodologies to raise the bar on scale and security.</li>
           <li>Direct vendor selection and strategy across data, AI, and data governance platforms, ensuring every investment aligns with long-term architecture and ROI.</li>
-          <li>Deliver Databricks-native document intelligence and chatbot agents that give teams real-time answers grounded in enterprise data.</li>
+          <li>Deliver document intelligence and chatbot agents built on Databricks, Azure AI Document Intelligence, and Azure AI Foundry that give teams real-time, governed answers grounded in enterprise data.</li>
           <li>Establish the governance, quality, and security guardrails that let AI and analytics initiatives scale safely.</li>
           <li>Build and grow a high-performing team, with direct accountability for their development and career trajectory.</li>
           <li>Own annual budget planning and proposal development for the data and AI strategy, translating vision into funded, executable priorities.</li>
@@ -121,7 +121,7 @@
             <button class="expertise-trigger" data-target="expertise-ai" aria-expanded="false">
               <div>
                 <h3>AI Initiatives &amp; Advanced Analytics</h3>
-                <p class="project-tags">Databricks &middot; Vector Search &middot; Predictive Modeling</p>
+                <p class="project-tags">Databricks &middot; Azure AI Foundry &middot; Predictive Modeling</p>
               </div>
               <span class="expand-icon" aria-hidden="true">+</span>
             </button>
@@ -177,8 +177,9 @@
       </template>
 
       <template id="expertise-ai">
-        <li>Engineered Databricks-native document extraction pipelines utilizing text extractors to parse and load unstructured documents into a vector database, enabling semantic search and enterprise content retrieval.</li>
-        <li>Deployed Databricks chatbot agents integrated with vector databases to surface critical document data to customer service teams in real time, driving a 30% to 50% improvement in service success rates.</li>
+        <li>Engineered Databricks-native document extraction pipelines using Azure AI Document Intelligence to parse and load unstructured documents into a vector database, enabling semantic search and enterprise content retrieval.</li>
+        <li>Orchestrated Retrieval-Augmented Generation chatbot agents in Azure AI Foundry &mdash; selecting foundation models via the model catalog and building the retrieval-to-response chain in Prompt Flow &mdash; to surface critical document data to customer service teams in real time, driving a 30% to 50% improvement in service success rates.</li>
+        <li>Governed model usage through a formal AI Foundry model risk-review process, RBAC-scoped hub and project access, and Content Safety filtering, giving compliance full auditability over every Prompt Flow run.</li>
         <li>Partnered with business stakeholders to identify high-value AI use cases, define data ingestion requirements, and validate agent response quality against operational benchmarks.</li>
         <li>Leveraged predictive and prescriptive modeling to deliver actionable insights, producing a 20% improvement in business outcomes and operational efficiency.</li>
         <li>Refined enterprise KPIs and reporting requirements, achieving a 25% increase in the accuracy and relevance of business performance metrics.</li>
@@ -383,7 +384,7 @@
             <button class="expertise-trigger" data-target="project-ai" aria-expanded="false">
               <div>
                 <h3>AI Document Intelligence &amp; Chatbot Agents</h3>
-                <p class="project-tags">Databricks &middot; Vector Database &middot; Semantic Search</p>
+                <p class="project-tags">Databricks &middot; Azure AI Foundry &middot; Prompt Flow</p>
               </div>
               <span class="expand-icon" aria-hidden="true">+</span>
             </button>
@@ -430,9 +431,10 @@
       </div>
 
       <template id="project-ai">
-        <p><strong>Problem:</strong> Customer service teams needed real-time access to critical information buried in large volumes of unstructured documents.</p>
-        <p><strong>Approach:</strong> Engineered Databricks-native document extraction pipelines using text extractors to parse and load unstructured documents into a vector database, then deployed chatbot agents integrated with that vector store to surface answers on demand. Partnered with business stakeholders to define ingestion requirements and validate response quality against operational benchmarks.</p>
-        <p><strong>Impact:</strong> Drove a 30&ndash;50% improvement in service success rates and enabled enterprise-wide semantic search and content retrieval.</p>
+        <p><strong>Problem:</strong> Customer service teams were losing significant time hunting for answers buried across large volumes of unstructured documents &mdash; contracts, policy manuals, and procedural guides scattered across disparate repositories. The result was slow response times, inconsistent answers depending on which agent handled a ticket, and escalations that eroded customer trust.</p>
+        <p><strong>Approach:</strong> Engineered Databricks-native document extraction pipelines to parse, chunk, and embed unstructured documents into a vector database, establishing the retrieval layer for a Retrieval-Augmented Generation (RAG) architecture. Used Azure AI Foundry's model catalog to evaluate and select foundation models against latency, cost, and accuracy benchmarks, then orchestrated the end-to-end RAG chain &mdash; retrieval, prompt construction, and response generation &mdash; in Prompt Flow, where variant testing and batch evaluation runs against golden question sets validated response quality before any flow was promoted to production. Deployed the validated flows as managed online endpoints powering chatbot agents integrated directly into customer service workflows, and partnered with business stakeholders throughout to define ingestion requirements and confirm response quality against operational benchmarks.</p>
+        <p><strong>Governance:</strong> Layered enterprise governance on top of the platform rather than treating it as an afterthought: model usage was restricted to a vetted subset of the AI Foundry model catalog approved through a formal risk review, hub- and project-level Azure RBAC scoped who could access source data, prompts, and deployed endpoints, Content Safety filters screened both inputs and generated responses, and every Prompt Flow run was logged for full auditability &mdash; giving compliance and security stakeholders a clear, reviewable trail from source document to generated answer.</p>
+        <p><strong>Impact:</strong> Drove a 30&ndash;50% improvement in service success rates, enabled enterprise-wide semantic search and content retrieval, and gave compliance stakeholders full auditability over model usage and response provenance.</p>
       </template>
 
       <template id="project-migration">
