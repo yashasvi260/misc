@@ -404,7 +404,7 @@
             <button class="expertise-trigger" data-target="project-governance" aria-expanded="false">
               <div>
                 <h3>Enterprise Data Governance &amp; Quality Framework</h3>
-                <p class="project-tags">Data Governance &middot; RBAC &middot; Metadata Tooling</p>
+                <p class="project-tags">Purview &middot; Collibra &middot; Profisee</p>
               </div>
               <span class="expand-icon" aria-hidden="true">+</span>
             </button>
@@ -598,8 +598,9 @@
 
       <template id="project-governance">
         <p><strong>Problem:</strong> Inconsistent data models and a lack of standardized governance were eroding trust in enterprise data.</p>
-        <p><strong>Approach:</strong> Implemented sustainable data models, quality standards, and governance protocols; built proprietary in-house metadata and governance tooling; instituted role-based access controls and encryption; directed regular audits and vulnerability assessments.</p>
-        <p><strong>Impact:</strong> Improved data accessibility and accuracy by 25%, increased overall data efficiency by 75%, and cut errors by 40%.</p>
+        <p><strong>Approach:</strong> Built the governance program around a purpose-fit tool stack rather than one platform trying to do everything: Microsoft Purview for enterprise-wide data cataloging, lineage tracking, and sensitivity classification across the Azure and multi-cloud estate; Collibra for business glossary, data stewardship workflows, and policy management, giving business owners a system of record for what each data asset means and who owns it; and Profisee for master data management, resolving and merging customer, product, and other core entities into governed golden records instead of letting duplicates and conflicting versions propagate downstream. Layered data quality checks directly into the pipelines themselves rather than treating quality as a downstream audit &mdash; validating schema, completeness, and business rules at ingestion, and re-validating after each transformation stage, so a bad record was caught and quarantined at the layer it entered instead of silently propagating into reporting.</p>
+        <p><strong>Security &amp; Compliance:</strong> Instituted role-based access controls and encryption across the platform, keeping access policy tied to Purview's classification and Collibra's stewardship workflows rather than living in a separate spreadsheet, and directed regular audits and vulnerability assessments to verify those controls held in practice, not just on paper.</p>
+        <p><strong>Impact:</strong> Improved data accessibility and accuracy by 25%, increased overall data efficiency by 75%, cut errors by 40%, and caught data quality issues at the point of ingestion instead of after they'd already reached downstream reports.</p>
       </template>
 
       <template id="project-analytics">
