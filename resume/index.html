@@ -515,7 +515,80 @@
         </div>
         <p class="case-diagram-caption">Documents move left to right into embeddings and an approved model, both feeding Prompt Flow's RAG chain below, which is evaluated, deployed, and governed end to end.</p>
 
-        <p><strong>Impact:</strong> Drove a 30&ndash;50% improvement in service success rates, enabled enterprise-wide semantic search and content retrieval, and gave compliance stakeholders full auditability and answer-level traceability over model usage and response provenance.</p>
+        <p><strong>Operations:</strong> Productionized the system with a GitHub Actions CI/CD pipeline that promotes every Prompt Flow change through dev, staging, and production &mdash; running the same batch evaluation against golden question sets as an automated gate before a flow is allowed to advance, so a regression is caught before staging, not after production. Deployed endpoints are monitored through Azure Monitor and Application Insights, tracking latency, error rates, token usage, and Content Safety flags in real time, with alerting configured to notify the engineering team on anomalies &mdash; closing the loop from a flagged issue back into the next Prompt Flow iteration.</p>
+
+        <div class="case-diagram-wrap">
+          <svg class="case-diagram" viewBox="0 0 860 500" role="img" aria-label="Operations diagram: a Prompt Flow change moves through a GitHub Actions CI/CD pipeline, gated by an automated batch evaluation against golden question sets, then a staging validation step, before deploying to production. Azure Monitor and Application Insights track the live endpoint's latency, errors, token usage, and Content Safety flags, with alerting that feeds anomalies back into the next Prompt Flow change as a continuous improvement loop.">
+            <defs>
+              <marker id="opsArrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" class="cd-arrowhead"></path>
+              </marker>
+              <marker id="opsArrowMuted" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" class="cd-arrowhead-muted"></path>
+              </marker>
+            </defs>
+
+            <rect x="20" y="40" width="180" height="90" rx="8" class="cd-node"></rect>
+            <text x="110" y="78" text-anchor="middle" class="cd-title">Prompt Flow Change</text>
+            <text x="110" y="96" text-anchor="middle" class="cd-sub">Prompt / flow edit</text>
+            <text x="110" y="110" text-anchor="middle" class="cd-sub">committed</text>
+
+            <path d="M200,85 H222" class="cd-arrow" marker-end="url(#opsArrow)"></path>
+
+            <rect x="227" y="40" width="180" height="90" rx="8" class="cd-node"></rect>
+            <text x="317" y="78" text-anchor="middle" class="cd-title">GitHub Actions CI</text>
+            <text x="317" y="96" text-anchor="middle" class="cd-sub">Lint · validate</text>
+            <text x="317" y="110" text-anchor="middle" class="cd-sub">on pull request</text>
+
+            <path d="M407,85 H429" class="cd-arrow" marker-end="url(#opsArrow)"></path>
+
+            <rect x="434" y="40" width="180" height="90" rx="8" class="cd-node-accent"></rect>
+            <text x="524" y="78" text-anchor="middle" class="cd-title">Batch Evaluation Gate</text>
+            <text x="524" y="96" text-anchor="middle" class="cd-sub">Golden question sets</text>
+            <text x="524" y="110" text-anchor="middle" class="cd-sub">blocks on regression</text>
+
+            <path d="M614,85 H636" class="cd-arrow" marker-end="url(#opsArrow)"></path>
+
+            <rect x="641" y="40" width="180" height="90" rx="8" class="cd-node"></rect>
+            <text x="731" y="78" text-anchor="middle" class="cd-title">Deploy to Staging</text>
+            <text x="731" y="96" text-anchor="middle" class="cd-sub">Managed online</text>
+            <text x="731" y="110" text-anchor="middle" class="cd-sub">endpoint</text>
+
+            <path d="M731,130 V200 H110 V275" class="cd-arrow" marker-end="url(#opsArrow)"></path>
+
+            <rect x="20" y="280" width="180" height="90" rx="8" class="cd-node-accent"></rect>
+            <text x="110" y="318" text-anchor="middle" class="cd-title">Staging Validation</text>
+            <text x="110" y="336" text-anchor="middle" class="cd-sub">Smoke tests</text>
+            <text x="110" y="350" text-anchor="middle" class="cd-sub">sign-off</text>
+
+            <path d="M200,325 H222" class="cd-arrow" marker-end="url(#opsArrow)"></path>
+
+            <rect x="227" y="280" width="180" height="90" rx="8" class="cd-node"></rect>
+            <text x="317" y="318" text-anchor="middle" class="cd-title">Deploy to Production</text>
+            <text x="317" y="336" text-anchor="middle" class="cd-sub">GitHub Actions</text>
+            <text x="317" y="350" text-anchor="middle" class="cd-sub">promotion</text>
+
+            <path d="M407,325 H429" class="cd-arrow" marker-end="url(#opsArrow)"></path>
+
+            <rect x="434" y="280" width="180" height="90" rx="8" class="cd-node"></rect>
+            <text x="524" y="318" text-anchor="middle" class="cd-title">Azure Monitor</text>
+            <text x="524" y="336" text-anchor="middle" class="cd-sub">Application Insights</text>
+            <text x="524" y="350" text-anchor="middle" class="cd-sub">Latency · errors · tokens</text>
+
+            <path d="M614,325 H636" class="cd-arrow" marker-end="url(#opsArrow)"></path>
+
+            <rect x="641" y="280" width="180" height="90" rx="8" class="cd-node"></rect>
+            <text x="731" y="318" text-anchor="middle" class="cd-title">Alerting</text>
+            <text x="731" y="336" text-anchor="middle" class="cd-sub">Anomaly detection</text>
+            <text x="731" y="350" text-anchor="middle" class="cd-sub">notifies on-call</text>
+
+            <path d="M731,370 V450 H5 V15 H90 V36" class="cd-arrow-dotted" marker-end="url(#opsArrowMuted)"></path>
+            <text x="10" y="10" class="cd-conn-label">continuous improvement</text>
+          </svg>
+        </div>
+        <p class="case-diagram-caption">A Prompt Flow change is gated by automated evaluation, promoted through staging to production via GitHub Actions, then monitored &mdash; with anomalies feeding back into the next iteration.</p>
+
+        <p><strong>Impact:</strong> Drove a 30&ndash;50% improvement in service success rates, enabled enterprise-wide semantic search and content retrieval, gave compliance stakeholders full auditability and answer-level traceability over model usage and response provenance, and cut release risk by catching regressions in CI before they ever reached production.</p>
       </template>
 
       <template id="project-migration">
