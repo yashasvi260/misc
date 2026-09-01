@@ -515,80 +515,77 @@
         </div>
         <p class="case-diagram-caption">Documents move left to right into embeddings and an approved model, both feeding Prompt Flow's RAG chain below, which is evaluated, deployed, and governed end to end.</p>
 
-        <p><strong>Operations:</strong> Productionized the system with a GitHub Actions CI/CD pipeline that promotes every Prompt Flow change through dev, staging, and production &mdash; running the same batch evaluation against golden question sets as an automated gate before a flow is allowed to advance, so a regression is caught before staging, not after production. Deployed endpoints are monitored through Azure Monitor and Application Insights, tracking latency, error rates, token usage, and Content Safety flags in real time, with alerting configured to notify the engineering team on anomalies &mdash; closing the loop from a flagged issue back into the next Prompt Flow iteration.</p>
+        <p><strong>Operations:</strong> Productionized the agent as a system reps rely on directly inside their existing tools, not a side experiment &mdash; embedding the chatbot into Teams and the CRM rather than a separate app, authenticating through Entra ID and an API gateway so the Prompt Flow endpoint's credentials never reach the client, and layering a backend that manages conversation state and rate limits across sessions. The endpoint itself runs autoscaled with traffic-split deployments behind it, so a new version absorbs a slice of live traffic before a full cutover instead of an all-at-once release. Every response passes a confidence and Content Safety check before it reaches a rep; below a grounding threshold, the conversation escalates to a live agent with its full context and history attached rather than failing silently, and Azure Monitor tracks latency, error rate, and escalation rate across all of it to catch degradation before reps notice it.</p>
 
         <div class="case-diagram-wrap">
-          <svg class="case-diagram" viewBox="0 0 860 500" role="img" aria-label="Operations diagram: a Prompt Flow change moves through a GitHub Actions CI/CD pipeline, gated by an automated batch evaluation against golden question sets, then a staging validation step, before deploying to production. Azure Monitor and Application Insights track the live endpoint's latency, errors, token usage, and Content Safety flags, with alerting that feeds anomalies back into the next Prompt Flow change as a continuous improvement loop.">
+          <svg class="case-diagram" viewBox="0 0 860 500" role="img" aria-label="Production runtime diagram: a customer service rep reaches the agent through Teams or the CRM, authenticated via Entra ID and an API gateway, into a chatbot backend that manages session state, then an autoscaled, traffic-split Prompt Flow endpoint. Each response passes a confidence and Content Safety check -- grounded answers return to the rep with source citations, while low-confidence responses escalate to a human agent with full context. Azure Monitor observes the endpoint throughout for latency, errors, and escalation rate.">
             <defs>
-              <marker id="opsArrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <marker id="runArrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 z" class="cd-arrowhead"></path>
               </marker>
-              <marker id="opsArrowMuted" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <marker id="runArrowMuted" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 z" class="cd-arrowhead-muted"></path>
               </marker>
             </defs>
 
             <rect x="20" y="40" width="180" height="90" rx="8" class="cd-node"></rect>
-            <text x="110" y="78" text-anchor="middle" class="cd-title">Prompt Flow Change</text>
-            <text x="110" y="96" text-anchor="middle" class="cd-sub">Prompt / flow edit</text>
-            <text x="110" y="110" text-anchor="middle" class="cd-sub">committed</text>
+            <text x="110" y="78" text-anchor="middle" class="cd-title">Customer Service Rep</text>
+            <text x="110" y="96" text-anchor="middle" class="cd-sub">Teams / CRM widget</text>
 
-            <path d="M200,85 H222" class="cd-arrow" marker-end="url(#opsArrow)"></path>
+            <path d="M200,85 H222" class="cd-arrow" marker-end="url(#runArrow)"></path>
 
             <rect x="227" y="40" width="180" height="90" rx="8" class="cd-node"></rect>
-            <text x="317" y="78" text-anchor="middle" class="cd-title">GitHub Actions CI</text>
-            <text x="317" y="96" text-anchor="middle" class="cd-sub">Lint · validate</text>
-            <text x="317" y="110" text-anchor="middle" class="cd-sub">on pull request</text>
+            <text x="317" y="78" text-anchor="middle" class="cd-title">Auth &amp; API Gateway</text>
+            <text x="317" y="96" text-anchor="middle" class="cd-sub">Entra ID · rate limits</text>
 
-            <path d="M407,85 H429" class="cd-arrow" marker-end="url(#opsArrow)"></path>
+            <path d="M407,85 H429" class="cd-arrow" marker-end="url(#runArrow)"></path>
 
-            <rect x="434" y="40" width="180" height="90" rx="8" class="cd-node-accent"></rect>
-            <text x="524" y="78" text-anchor="middle" class="cd-title">Batch Evaluation Gate</text>
-            <text x="524" y="96" text-anchor="middle" class="cd-sub">Golden question sets</text>
-            <text x="524" y="110" text-anchor="middle" class="cd-sub">blocks on regression</text>
+            <rect x="434" y="40" width="180" height="90" rx="8" class="cd-node"></rect>
+            <text x="524" y="78" text-anchor="middle" class="cd-title">Chatbot Backend</text>
+            <text x="524" y="96" text-anchor="middle" class="cd-sub">Session &amp; conversation</text>
+            <text x="524" y="110" text-anchor="middle" class="cd-sub">state</text>
 
-            <path d="M614,85 H636" class="cd-arrow" marker-end="url(#opsArrow)"></path>
+            <path d="M614,85 H636" class="cd-arrow" marker-end="url(#runArrow)"></path>
 
-            <rect x="641" y="40" width="180" height="90" rx="8" class="cd-node"></rect>
-            <text x="731" y="78" text-anchor="middle" class="cd-title">Deploy to Staging</text>
-            <text x="731" y="96" text-anchor="middle" class="cd-sub">Managed online</text>
-            <text x="731" y="110" text-anchor="middle" class="cd-sub">endpoint</text>
+            <rect x="641" y="40" width="180" height="90" rx="8" class="cd-node-accent"></rect>
+            <text x="731" y="78" text-anchor="middle" class="cd-title">Prompt Flow Endpoint</text>
+            <text x="731" y="96" text-anchor="middle" class="cd-sub">Autoscaled</text>
+            <text x="731" y="110" text-anchor="middle" class="cd-sub">Traffic-split deploys</text>
 
-            <path d="M731,130 V200 H110 V275" class="cd-arrow" marker-end="url(#opsArrow)"></path>
+            <path d="M731,130 V200 H110 V275" class="cd-arrow" marker-end="url(#runArrow)"></path>
+            <path d="M770,130 V275" class="cd-arrow-dotted" marker-end="url(#runArrowMuted)"></path>
+            <text x="778" y="205" class="cd-conn-label">observes</text>
 
             <rect x="20" y="280" width="180" height="90" rx="8" class="cd-node-accent"></rect>
-            <text x="110" y="318" text-anchor="middle" class="cd-title">Staging Validation</text>
-            <text x="110" y="336" text-anchor="middle" class="cd-sub">Smoke tests</text>
-            <text x="110" y="350" text-anchor="middle" class="cd-sub">sign-off</text>
+            <text x="110" y="318" text-anchor="middle" class="cd-title">Confidence &amp; Safety</text>
+            <text x="110" y="336" text-anchor="middle" class="cd-sub">Grounding score</text>
+            <text x="110" y="350" text-anchor="middle" class="cd-sub">Content Safety</text>
 
-            <path d="M200,325 H222" class="cd-arrow" marker-end="url(#opsArrow)"></path>
+            <path d="M200,315 H222" class="cd-arrow" marker-end="url(#runArrow)"></path>
+            <text x="204" y="308" class="cd-conn-label">grounded</text>
 
             <rect x="227" y="280" width="180" height="90" rx="8" class="cd-node"></rect>
-            <text x="317" y="318" text-anchor="middle" class="cd-title">Deploy to Production</text>
-            <text x="317" y="336" text-anchor="middle" class="cd-sub">GitHub Actions</text>
-            <text x="317" y="350" text-anchor="middle" class="cd-sub">promotion</text>
+            <text x="317" y="318" text-anchor="middle" class="cd-title">Response to Rep</text>
+            <text x="317" y="336" text-anchor="middle" class="cd-sub">Grounded answer</text>
+            <text x="317" y="350" text-anchor="middle" class="cd-sub">+ source citation</text>
 
-            <path d="M407,325 H429" class="cd-arrow" marker-end="url(#opsArrow)"></path>
+            <path d="M180,370 V400 H524 V375" class="cd-arrow" marker-end="url(#runArrow)"></path>
+            <text x="190" y="392" class="cd-conn-label">low confidence</text>
 
             <rect x="434" y="280" width="180" height="90" rx="8" class="cd-node"></rect>
-            <text x="524" y="318" text-anchor="middle" class="cd-title">Azure Monitor</text>
-            <text x="524" y="336" text-anchor="middle" class="cd-sub">Application Insights</text>
-            <text x="524" y="350" text-anchor="middle" class="cd-sub">Latency · errors · tokens</text>
-
-            <path d="M614,325 H636" class="cd-arrow" marker-end="url(#opsArrow)"></path>
+            <text x="524" y="318" text-anchor="middle" class="cd-title">Human Handoff</text>
+            <text x="524" y="336" text-anchor="middle" class="cd-sub">Full context +</text>
+            <text x="524" y="350" text-anchor="middle" class="cd-sub">conversation history</text>
 
             <rect x="641" y="280" width="180" height="90" rx="8" class="cd-node"></rect>
-            <text x="731" y="318" text-anchor="middle" class="cd-title">Alerting</text>
-            <text x="731" y="336" text-anchor="middle" class="cd-sub">Anomaly detection</text>
-            <text x="731" y="350" text-anchor="middle" class="cd-sub">notifies on-call</text>
-
-            <path d="M731,370 V450 H5 V15 H90 V36" class="cd-arrow-dotted" marker-end="url(#opsArrowMuted)"></path>
-            <text x="10" y="10" class="cd-conn-label">continuous improvement</text>
+            <text x="731" y="318" text-anchor="middle" class="cd-title">Azure Monitor</text>
+            <text x="731" y="336" text-anchor="middle" class="cd-sub">Latency · errors</text>
+            <text x="731" y="350" text-anchor="middle" class="cd-sub">Escalation rate</text>
           </svg>
         </div>
-        <p class="case-diagram-caption">A Prompt Flow change is gated by automated evaluation, promoted through staging to production via GitHub Actions, then monitored &mdash; with anomalies feeding back into the next iteration.</p>
+        <p class="case-diagram-caption">A rep's question authenticates through the gateway, runs against the autoscaled Prompt Flow endpoint, and either returns a grounded, cited answer or escalates to a human with full context &mdash; monitored end to end.</p>
 
-        <p><strong>Impact:</strong> Drove a 30&ndash;50% improvement in service success rates, enabled enterprise-wide semantic search and content retrieval, gave compliance stakeholders full auditability and answer-level traceability over model usage and response provenance, and cut release risk by catching regressions in CI before they ever reached production.</p>
+        <p><strong>Impact:</strong> Drove a 30&ndash;50% improvement in service success rates, enabled enterprise-wide semantic search and content retrieval, gave compliance stakeholders full auditability and answer-level traceability over model usage and response provenance, and kept the system dependable in production through autoscaling, confidence-gated responses, and seamless human handoff when the agent wasn't confident enough.</p>
       </template>
 
       <template id="project-migration">
