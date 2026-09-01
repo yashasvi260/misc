@@ -434,6 +434,87 @@
         <p><strong>Problem:</strong> Customer service teams were losing significant time hunting for answers buried across large volumes of unstructured documents &mdash; contracts, policy manuals, and procedural guides scattered across disparate repositories. The result was slow response times, inconsistent answers depending on which agent handled a ticket, and escalations that eroded customer trust.</p>
         <p><strong>Approach:</strong> Built a Databricks-native ingestion pipeline that pulls documents from enterprise repositories, extracts and OCRs text where needed, and cleans and normalizes content before chunking it into logical segments enriched with metadata &mdash; document type, source, version, business unit, effective date, and policy area. Each chunk is embedded using an approved Azure AI Foundry model and stored, alongside its metadata, in a vector database that serves as the system's retrieval layer. Foundation models are themselves vetted through Azure AI Foundry's model catalog against latency, cost, accuracy, and quality benchmarks, with only governance-approved models cleared for production use. Prompt Flow orchestrates the resulting RAG chain end to end: accepting the user's question, generating a query embedding, retrieving the most relevant document chunks, constructing a grounded prompt, calling the approved foundation model, generating a response, and running it through safety and quality checks before it's returned. Every Prompt Flow variant is evaluated in batch against golden question sets before promotion, and the validated flow is deployed as a managed online endpoint that customer service agents access directly inside their existing workflow.</p>
         <p><strong>Governance:</strong> Governance spans the full architecture, not just the model layer. Only foundation models cleared through a formal risk review are exposed via the AI Foundry model catalog; Azure RBAC scopes access at both the hub and project level; and document, prompt, and endpoint access are each independently restricted. Content Safety filters screen every input and output, every Prompt Flow run is logged for full audit history, and each generated answer carries traceability back to the specific document chunks that produced it &mdash; giving compliance and security stakeholders a complete, reviewable chain from source document to response.</p>
+
+        <div class="case-diagram-wrap">
+          <svg class="case-diagram" viewBox="0 0 860 500" role="img" aria-label="Architecture diagram: documents flow from enterprise sources through a Databricks ingestion pipeline into chunked, metadata-enriched embeddings stored in a vector database, which together with an AI Foundry-approved foundation model feed a Prompt Flow RAG chain. That flow is batch-evaluated, deployed as a managed online endpoint, and used by chatbot agents. A governance layer spans the serving layer, enforcing RBAC-scoped access on Prompt Flow and content-safety-controlled access on the managed endpoint.">
+            <defs>
+              <marker id="cdArrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" class="cd-arrowhead"></path>
+              </marker>
+              <marker id="cdArrowMuted" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" class="cd-arrowhead-muted"></path>
+              </marker>
+            </defs>
+
+            <rect x="20" y="40" width="180" height="90" rx="8" class="cd-node"></rect>
+            <text x="110" y="78" text-anchor="middle" class="cd-title">Document Sources</text>
+            <text x="110" y="96" text-anchor="middle" class="cd-sub">Contracts · policies</text>
+            <text x="110" y="110" text-anchor="middle" class="cd-sub">Procedural guides</text>
+
+            <path d="M200,85 H222" class="cd-arrow" marker-end="url(#cdArrow)"></path>
+
+            <rect x="227" y="40" width="180" height="90" rx="8" class="cd-node"></rect>
+            <text x="317" y="78" text-anchor="middle" class="cd-title">Databricks Ingestion</text>
+            <text x="317" y="96" text-anchor="middle" class="cd-sub">Extract · clean</text>
+            <text x="317" y="110" text-anchor="middle" class="cd-sub">Chunk + enrich metadata</text>
+
+            <path d="M407,85 H429" class="cd-arrow" marker-end="url(#cdArrow)"></path>
+
+            <rect x="434" y="40" width="180" height="90" rx="8" class="cd-node"></rect>
+            <text x="524" y="78" text-anchor="middle" class="cd-title">Embedding</text>
+            <text x="524" y="96" text-anchor="middle" class="cd-sub">Approved Foundry model</text>
+            <text x="524" y="110" text-anchor="middle" class="cd-sub">→ vector database</text>
+
+            <path d="M614,85 H636" class="cd-arrow" marker-end="url(#cdArrow)"></path>
+
+            <rect x="641" y="40" width="180" height="90" rx="8" class="cd-node"></rect>
+            <text x="731" y="78" text-anchor="middle" class="cd-title">AI Foundry Model Catalog</text>
+            <text x="731" y="96" text-anchor="middle" class="cd-sub">Latency · cost · accuracy</text>
+            <text x="731" y="110" text-anchor="middle" class="cd-sub">→ approved models</text>
+
+            <path d="M524,130 V210 H150 V275" class="cd-arrow" marker-end="url(#cdArrow)"></path>
+            <path d="M731,130 V240 H70 V275" class="cd-arrow" marker-end="url(#cdArrow)"></path>
+
+            <rect x="20" y="280" width="180" height="90" rx="8" class="cd-node-accent"></rect>
+            <text x="110" y="316" text-anchor="middle" class="cd-title">Prompt Flow &mdash; RAG</text>
+            <text x="110" y="334" text-anchor="middle" class="cd-sub">Retrieve · construct</text>
+            <text x="110" y="348" text-anchor="middle" class="cd-sub">Generate · safety check</text>
+
+            <path d="M200,325 H222" class="cd-arrow" marker-end="url(#cdArrow)"></path>
+
+            <rect x="227" y="280" width="180" height="90" rx="8" class="cd-node"></rect>
+            <text x="317" y="318" text-anchor="middle" class="cd-title">Batch Evaluation</text>
+            <text x="317" y="336" text-anchor="middle" class="cd-sub">Golden question sets</text>
+            <text x="317" y="350" text-anchor="middle" class="cd-sub">Variant testing</text>
+
+            <path d="M407,325 H429" class="cd-arrow" marker-end="url(#cdArrow)"></path>
+
+            <rect x="434" y="280" width="180" height="90" rx="8" class="cd-node"></rect>
+            <text x="524" y="318" text-anchor="middle" class="cd-title">Managed Online</text>
+            <text x="524" y="336" text-anchor="middle" class="cd-sub">Endpoint</text>
+
+            <path d="M614,325 H636" class="cd-arrow" marker-end="url(#cdArrow)"></path>
+
+            <rect x="641" y="280" width="180" height="90" rx="8" class="cd-node"></rect>
+            <text x="731" y="318" text-anchor="middle" class="cd-title">Chatbot Agent</text>
+            <text x="731" y="336" text-anchor="middle" class="cd-sub">Customer service</text>
+            <text x="731" y="350" text-anchor="middle" class="cd-sub">workflow</text>
+
+            <rect x="20" y="410" width="800" height="70" rx="8" class="cd-band"></rect>
+            <text x="35" y="430" class="cd-band-label">GOVERNANCE &mdash; SPANS THE FULL ARCHITECTURE</text>
+            <text x="130" y="458" text-anchor="middle" class="cd-chip">Approved model catalog only</text>
+            <text x="325" y="458" text-anchor="middle" class="cd-chip">Azure RBAC &mdash; hub &amp; project</text>
+            <text x="520" y="458" text-anchor="middle" class="cd-chip">Content Safety filters</text>
+            <text x="715" y="458" text-anchor="middle" class="cd-chip">Full run logging</text>
+
+            <path d="M110,410 V375" class="cd-arrow-dotted" marker-end="url(#cdArrowMuted)"></path>
+            <text x="118" y="396" class="cd-conn-label">secures</text>
+            <path d="M524,410 V375" class="cd-arrow-dotted" marker-end="url(#cdArrowMuted)"></path>
+            <text x="532" y="396" class="cd-conn-label">controls</text>
+          </svg>
+        </div>
+        <p class="case-diagram-caption">Documents move left to right into embeddings and an approved model, both feeding Prompt Flow's RAG chain below, which is evaluated, deployed, and governed end to end.</p>
+
         <p><strong>Impact:</strong> Drove a 30&ndash;50% improvement in service success rates, enabled enterprise-wide semantic search and content retrieval, and gave compliance stakeholders full auditability and answer-level traceability over model usage and response provenance.</p>
       </template>
 

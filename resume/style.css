@@ -703,6 +703,40 @@ body.hero-locked .back-to-top {
   color: var(--accent);
 }
 
+/* ---------- Case study architecture diagram ---------- */
+
+.case-diagram-wrap {
+  margin: 0.25rem 0 1rem;
+  overflow-x: auto;
+}
+
+.case-diagram {
+  display: block;
+  width: 100%;
+  min-width: 620px;
+  height: auto;
+}
+
+.case-diagram-caption {
+  margin: 0.5rem 0 1rem;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.cd-node { fill: var(--card-bg); stroke: var(--border); stroke-width: 1.4; }
+.cd-node-accent { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.6; }
+.cd-arrow { fill: none; stroke: var(--accent); stroke-width: 1.6; }
+.cd-arrow-dotted { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 3 3; }
+.cd-arrowhead { fill: var(--accent); }
+.cd-arrowhead-muted { fill: var(--muted); }
+.cd-title { font: 600 11px "Inter", "Helvetica Neue", Arial, sans-serif; fill: var(--text); }
+.cd-sub { font: 400 9.5px "Inter", "Helvetica Neue", Arial, sans-serif; fill: var(--muted); }
+.cd-band { fill: none; stroke: var(--border); stroke-width: 1.4; stroke-dasharray: 4 4; }
+.cd-band-label { font: 600 9px "Inter", Arial, sans-serif; fill: var(--muted); letter-spacing: 0.04em; }
+.cd-chip { font: 500 9.5px "Inter", Arial, sans-serif; fill: var(--muted); }
+.cd-conn-label { font: 500 8.5px "Inter", Arial, sans-serif; fill: var(--muted); }
+
 /* ---------- Timeline ---------- */
 
 .timeline-scroll {
